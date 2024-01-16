@@ -1,0 +1,17 @@
+{
+    "name": "leantime/OmniSearch",
+    "description": "Leantime OmniSearch",
+    "version": "1.0",
+    "authors": [
+        {
+            "name": "Jeppe Krogh",
+            "email": "kjej@aarhus.dk"
+        }
+    ],
+    "type": "plugin",
+    "license": "MIT",
+    "homepage": "https://leantime.io/",
+    "require": {
+        "leantime/leantime": "2.3"
+    }
+}
