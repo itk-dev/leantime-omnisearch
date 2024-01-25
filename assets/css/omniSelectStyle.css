@@ -21,6 +21,10 @@ body.prevent-scroll {
 .omni-search[data-state="default"] > span.loader {
     display: none;
 }
+.omni-search > .loader-container:empty,
+.omni-search > .content-container:empty {
+    pointer-events: none;
+}
 .omni-search > .loader-container,
 .omni-search > .content-container {
     position: absolute;
