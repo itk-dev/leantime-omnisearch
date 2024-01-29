@@ -17,9 +17,15 @@ class OmniSearch {
   }
 
   public function uninstall() {
-    $omniSelectEnginePath = "./dist/js/omniSearch.js";
-    $omniSelectStylePath = "./dist/css/omniSearch.css";
-    unlink($omniSelectEnginePath);
-    unlink($omniSelectStylePath);
+    $omniSelectFiles = [
+        $_SERVER['DOCUMENT_ROOT'] . "/dist/js/omniSearch.js",
+        $_SERVER['DOCUMENT_ROOT'] . "/dist/css/omniSearch.css"
+      ];
+
+      foreach ($omniSelectFiles as $file) {
+        if (file_exists($file)) {
+          unlink($file);
+        }
+      }
   }
 }
