@@ -21,36 +21,6 @@ body.prevent-scroll {
 .omni-search[data-state="default"] > span.loader {
     display: none;
 }
-.omni-search > .loader-container:empty,
-.omni-search > .content-container:empty {
-    pointer-events: none;
-}
-.omni-search > .loader-container,
-.omni-search > .content-container {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-}
-.omni-search > .content-container > div {
-    margin: 15vh auto auto auto;
-    background-color: #fff;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-}
-.omni-search > .loader-container > span.loader {
-    position: relative;
-    margin: 50vh auto auto auto;
-    font-size: 50px;
-    animation: fadeIn .3s;
-    color: #fff;
-}
-.omni-search > .loader-container:not(:empty) ~ .select2,
-.omni-search > .content-container:not(:empty) ~ .select2 {
-    display: none;
-}
 .omni-search .select2-selection {
     padding: 15px;
 }
@@ -99,19 +69,6 @@ body.prevent-scroll {
     top: 20px;
     left: 15px;
     font-size: 14px;
-}
-#timelogTextarea {
-    resize: none;
-    height: 150px;
-}
-#timelogSubmit {
-    padding: 10px;
-    color: #fff;
-    font-size: 15px;
-    border: none;
-}
-#timelogSubmit:hover {
-    background-color: rgb(2, 90, 131);
 }
 .js-example-basic-multiple.loading + span.select2:before {
     font-family: "Font Awesome 5 Free";
