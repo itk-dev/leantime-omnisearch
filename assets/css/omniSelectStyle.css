@@ -113,17 +113,23 @@ body.prevent-scroll {
 #timelogSubmit:hover {
     background-color: rgb(2, 90, 131);
 }
-/* .select2-results__option {
-    padding: 15px 5px;
+.js-example-basic-multiple.loading + span.select2:before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f1ce";
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 20px;
+    margin: auto;
+    z-index: 9;
+    animation: spin 1.2s infinite;
 }
-.select2-results__option[data-type="link"] {
-    background-color: #4285F4;
-    color: #333;
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
 }
-.select2-results__option[data-type="task"] {
-    background-color: #E57368;
-    color: #333;
-} */
 @keyframes fadeIn {
     0% {
         opacity: 0;
