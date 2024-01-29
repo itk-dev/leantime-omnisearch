@@ -2,10 +2,6 @@
 
 namespace Leantime\Plugins\OmniSearch\Services;
 
-
-/**
- * Sample plugin service
- */
 class OmniSearch {
 
   public function install() {
