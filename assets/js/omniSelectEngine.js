@@ -2,7 +2,7 @@ $(document).ready(function ($) {
   const userId = omniSearch.settings.userId;
   const elementIcons = {
     task: "fa fa-fw fa-tasks",
-    project: "fa fa-fw fa-shapes"
+    project: "fa fa-fw fa-shapes",
   };
   // Append overlay
   $("body").append(`
@@ -38,13 +38,13 @@ $(document).ready(function ($) {
     }
   });
 
+  // Init select2, get data, set events.
   function initOmniSearch() {
     $("body").addClass("prevent-scroll");
     omniSelectElement.addClass("loading");
     if ($(".omni-search").hasClass("hidden") === false) {
       return false;
     }
-    localStorage.removeItem("availableTags");
 
     $.fn.select2.amd.require(["select2/selection/search"], function (Search) {
       var oldRemoveChoice = Search.prototype.searchRemoveChoice;
@@ -99,7 +99,10 @@ $(document).ready(function ($) {
                   destroyOmniSearch();
                   break;
                 case "createnew":
-                  path = "/projects/changeCurrentProject/" + projectId + "#/tickets/newTicket";
+                  path =
+                    "/projects/changeCurrentProject/" +
+                    projectId +
+                    "#/tickets/newTicket";
                   window.location.href = path;
                   destroyOmniSearch();
                   break;
@@ -138,48 +141,22 @@ $(document).ready(function ($) {
         $t.trigger("change.select2");
       });
       $(".omni-search").removeClass("hidden");
-
     });
   }
 
+  // Close overlay.
   function destroyOmniSearch() {
     omniSelectElement.off();
     $("body").removeClass("prevent-scroll");
     omniSelectElement.empty().trigger("change");
     $("body .omni-search").addClass("hidden");
-    $("body .omni-search .content-container").empty();
     $("body .select2-container").remove();
   }
-  function getAllProjects() {
-    return callApi("leantime.rpc.projects.getAll", {});
-  }
-  function getUserTickets() {
-    return callApi("leantime.rpc.tickets.getAll", {
-      userId: userId,
-    });
-  }
-  function callApi(method, params) {
-    return new Promise((resolve, reject) => {
-      $.ajax({
-        url: leantime.appUrl + "/api/jsonrpc/",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: JSON.stringify({
-          method: method,
-          jsonrpc: "2.0",
-          id: "1",
-          params: params,
-        }),
-        success: resolve,
-        error: reject,
-      });
-    });
-  }
+
+  // Set up select content based on selected element.
   function reinitOmniSearchForType(type, data) {
     switch (type) {
-      case "task":
+      case "task": // ToDo.
         reinitOmniSearchWithData([
           {
             id: "",
@@ -201,7 +178,7 @@ $(document).ready(function ($) {
           },
         ]);
         break;
-      case "project":
+      case "project": // Project.
         reinitOmniSearchWithData([
           {
             id: "",
@@ -225,7 +202,7 @@ $(document).ready(function ($) {
         break;
     }
   }
-
+  // Set data and refresh select2.
   function reinitOmniSearchWithData(data) {
     omniSelectElement
       .select2("destroy")
@@ -233,6 +210,7 @@ $(document).ready(function ($) {
       .select2({
         data: data,
         templateResult: function (data, container) {
+          // Setup custom options with icon and data values.
           var $state = $(
             '<div class="select2-results__option-container">' +
               (data.type
@@ -285,6 +263,36 @@ $(document).ready(function ($) {
     });
   }
 
+  // Api
+  function getAllProjects() {
+    return callApi("leantime.rpc.projects.getAll", {});
+  }
+  function getUserTickets() {
+    return callApi("leantime.rpc.tickets.getAll", {
+      userId: userId,
+    });
+  }
+  function callApi(method, params) {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: leantime.appUrl + "/api/jsonrpc/",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          method: method,
+          jsonrpc: "2.0",
+          id: "1",
+          params: params,
+        }),
+        success: resolve,
+        error: reject,
+      });
+    });
+  }
+
+  // Get data for initial load.
   function getOmnisearchData() {
     var availableTags = [];
 
@@ -337,14 +345,15 @@ $(document).ready(function ($) {
     // Sort data by index and return to select2.
     projects.then(() => {
       tickets.then(() => {
-        availableTags.sort(function(a, b) {
-            return a.index - b.index;
+        availableTags.sort(function (a, b) {
+          return a.index - b.index;
         });
         reinitOmniSearchWithData(availableTags);
         omniSelectElement.removeClass("loading");
-      })
-    })
+      });
+    });
   }
+
   function stripHTMLtags(html) {
     return html.replace(/<[^>]*>/g, "");
   }
