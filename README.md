@@ -1,6 +1,7 @@
 # Leantime OmniSearch
 
-A plugin for Leantime that gives access to a plethora of shortcuts, to speed up navigating the system.
+A plugin for Leantime that gives access to a plethora of shortcuts, to speed up 
+navigating the system.
 
 ## Development
 
@@ -43,5 +44,6 @@ you can symlink the files as follows (from leantime/):
 Run prettier via the following command:
 
 ```shell
+    npm install
     docker run -it --volume ${PWD}:/app --rm node:20 yarn --cwd /app prettier assets --write
 ```
