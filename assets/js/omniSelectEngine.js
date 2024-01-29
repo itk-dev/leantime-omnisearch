@@ -217,9 +217,6 @@ $(document).ready(function ($) {
           if (data.tags) {
             $(container).attr("data-tags", data.tags);
           }
-          if (data.description) {
-            $(container).attr("data-description", data.description);
-          }
           if (data.type) {
             $(container).attr("data-type", data.type);
           }
@@ -263,7 +260,9 @@ $(document).ready(function ($) {
   }
   function getUserTickets() {
     return callApi("leantime.rpc.tickets.getAll", {
-      userId: userId,
+      searchCriteria: {
+          userId: userId,
+      }
     });
   }
   function callApi(method, params) {
@@ -325,7 +324,6 @@ $(document).ready(function ($) {
           text: ticket.headline,
           type: ticket.type,
           tags: ticket.tags,
-          description: stripHTMLtags(ticket.description),
           sprintName: ticket.sprintName,
           projectId: ticket.projectId,
           projectName: ticket.projectName,
@@ -345,10 +343,6 @@ $(document).ready(function ($) {
         omniSelectElement.removeClass("loading");
       });
     });
-  }
-
-  function stripHTMLtags(html) {
-    return html.replace(/<[^>]*>/g, "");
   }
 
   function fuzzySearch(needle, haystack) {
@@ -374,7 +368,6 @@ function matcher(params, data) {
         data.parentText,
         data.text,
         data.tags,
-        data.description,
         data.sprintName,
         data.projectName,
         data.client
@@ -394,5 +387,6 @@ function matcher(params, data) {
 
     return null;
 }
+
 
 });
