@@ -212,7 +212,7 @@ $(document).ready(function ($) {
                 ? "<span class='" + elementIcons[data.type] + "'></span>"
                 : "") +
               data.text +
-              "</div>"
+              "</div>",
           );
           if (data.tags) {
             $(container).attr("data-tags", data.tags);
@@ -261,8 +261,8 @@ $(document).ready(function ($) {
   function getUserTickets() {
     return callApi("leantime.rpc.tickets.getAll", {
       searchCriteria: {
-          userId: userId,
-      }
+        userId: userId,
+      },
     });
   }
   function callApi(method, params) {
@@ -354,39 +354,41 @@ $(document).ready(function ($) {
 
     let j = 0;
     for (let i = 0; i < needle.length; i++) {
-        while (j < haystack.length && needle[i] !== haystack[j]) {
-            j++;
-        }
-        if (j === haystack.length) return false;
+      while (j < haystack.length && needle[i] !== haystack[j]) {
         j++;
+      }
+      if (j === haystack.length) return false;
+      j++;
     }
     return true;
-}
+  }
 
-function matcher(params, data) {
+  function matcher(params, data) {
     const original = [
-        data.parentText,
-        data.text,
-        data.tags,
-        data.sprintName,
-        data.projectName,
-        data.client
-    ].join(" ").toLowerCase();
-    const term = params.term ? params.term.toLowerCase() : '';
+      data.parentText,
+      data.text,
+      data.tags,
+      data.sprintName,
+      data.projectName,
+      data.client,
+    ]
+      .join(" ")
+      .toLowerCase();
+    const term = params.term ? params.term.toLowerCase() : "";
 
     if (!term.trim() || fuzzySearch(term, original)) {
-        return data;
+      return data;
     }
 
     if (data.children && data.children.length > 0) {
-        const matchedChildren = data.children.map(child => matcher(params, child)).filter(Boolean);
-        if (matchedChildren.length > 0) {
-            return { ...data, children: matchedChildren };
-        }
+      const matchedChildren = data.children
+        .map((child) => matcher(params, child))
+        .filter(Boolean);
+      if (matchedChildren.length > 0) {
+        return { ...data, children: matchedChildren };
+      }
     }
 
     return null;
-}
-
-
+  }
 });
