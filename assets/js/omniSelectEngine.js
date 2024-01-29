@@ -74,7 +74,6 @@ $(document).ready(function ($) {
             case "taskAction":
               var ticketId = e.params.data.id;
               action = e.params.data.action;
-              console.log(action);
               switch (action) {
                 case "goto":
                   path = "?tab=ticketdetails#/tickets/showTicket/" + ticketId;
@@ -91,7 +90,6 @@ $(document).ready(function ($) {
             case "projectAction":
               var projectId = e.params.data.id;
               action = e.params.data.action;
-              console.log(action);
               switch (action) {
                 case "goto":
                   path = "/projects/changeCurrentProject/" + projectId;
@@ -107,9 +105,6 @@ $(document).ready(function ($) {
                   destroyOmniSearch();
                   break;
               }
-              break;
-            default:
-              console.log("default case");
               break;
           }
         });
@@ -228,7 +223,6 @@ $(document).ready(function ($) {
           if (data.type) {
             $(container).attr("data-type", data.type);
           }
-          console.log(data);
           if (data.client) {
             $(container).attr("data-client", data.client);
           }
@@ -305,7 +299,6 @@ $(document).ready(function ($) {
         index: 1,
       };
       projects.forEach((project) => {
-        console.log(project);
         let option = {
           id: project.id,
           text: project.name,
@@ -358,62 +351,48 @@ $(document).ready(function ($) {
     return html.replace(/<[^>]*>/g, "");
   }
 
-  function matcher(params, data) {
-    data.parentText = data.parentText || "";
+  function fuzzySearch(needle, haystack) {
+    needle = needle.toLowerCase();
+    haystack = haystack.toLowerCase();
 
-    // Always return the object if there is nothing to compare
-    if ($.trim(params.term) === "") {
-      return data;
-    }
+    if (needle === haystack) return true;
+    if (needle.length > haystack.length) return false;
 
-    // Do a recursive check for options with children
-    if (data.children && data.children.length > 0) {
-      // Clone the data object if there are children
-      // This is required as we modify the object to remove any non-matches
-      var match = $.extend(true, {}, data);
-
-      // Check each child of the option
-      for (var c = data.children.length - 1; c >= 0; c--) {
-        var child = data.children[c];
-        child.parentText = data.parentText + " " + data.text;
-
-        var matches = matcher(params, child);
-
-        // If there wasn't a match, remove the object in the array
-        if (matches == null) {
-          match.children.splice(c, 1);
+    let j = 0;
+    for (let i = 0; i < needle.length; i++) {
+        while (j < haystack.length && needle[i] !== haystack[j]) {
+            j++;
         }
-      }
+        if (j === haystack.length) return false;
+        j++;
+    }
+    return true;
+}
 
-      // If any children matched, return the new object
-      if (match.children.length > 0) {
-        return match;
-      }
+function matcher(params, data) {
+    const original = [
+        data.parentText,
+        data.text,
+        data.tags,
+        data.description,
+        data.sprintName,
+        data.projectName,
+        data.client
+    ].join(" ").toLowerCase();
+    const term = params.term ? params.term.toLowerCase() : '';
 
-      // If there were no matching children, check just the plain object
-      return matcher(params, match);
+    if (!term.trim() || fuzzySearch(term, original)) {
+        return data;
     }
 
-    // If the typed-in term matches the text of this term, or the text from any
-    // parent term, then it's a match.
-    var original = (
-      data.parentText +
-      " " +
-      data.text +
-      data.tags +
-      data.description +
-      data.sprintName +
-      data.projectName +
-      data.client
-    ).toUpperCase();
-    var term = params.term.toUpperCase();
-
-    // Check if the text contains the term
-    if (original.indexOf(term) > -1) {
-      return data;
+    if (data.children && data.children.length > 0) {
+        const matchedChildren = data.children.map(child => matcher(params, child)).filter(Boolean);
+        if (matchedChildren.length > 0) {
+            return { ...data, children: matchedChildren };
+        }
     }
 
-    // If it doesn't contain the term, don't return anything
     return null;
-  }
+}
+
 });
