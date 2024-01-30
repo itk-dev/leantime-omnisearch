@@ -1,6 +1,6 @@
 {
     "name": "leantime/omnisearch",
-    "description": "Leantime OmniSearch",
+    "description": "(ITKDev) Leantime OmniSearch",
     "version": "1.0",
     "authors": [
         {
@@ -10,7 +10,7 @@
     ],
     "type": "plugin",
     "license": "MIT",
-    "homepage": "https://leantime.io/",
+    "homepage": "https://github.com/ITK-Leantime/leantime-omnisearch",
     "require": {
         "leantime/leantime": "2.3"
     }
