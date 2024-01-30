@@ -275,9 +275,9 @@ $(document).ready(function ($) {
 
   function getUserTickets() {
     return callApi('leantime.rpc.tickets.getAll', {
-      // searchCriteria: {
-      userId: userId,
-      // },
+      searchCriteria: {
+        userId: userId,
+      },
     });
   }
 
