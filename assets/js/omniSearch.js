@@ -4,6 +4,11 @@ $(document).ready(function ($) {
     task: 'fa fa-fw fa-tasks',
     project: 'fa fa-fw fa-shapes',
   };
+  const key = {
+    escape: 27,
+    period: 190,
+    backspace: 8,
+  };
 
   // Append overlay
   $('body').append(`
@@ -30,16 +35,15 @@ $(document).ready(function ($) {
   $('body').on('keydown', function (e) {
     const keyCode = e.keyCode;
     switch (keyCode) {
-      case 27: // escape key.
+      case key.escape:
         destroyOmniSearch();
         break;
 
-      case 190: // dot key.
+      case key.period:
         if (!$('input, textarea').is(':focus')) {
           initOmniSearch();
         }
         break;
-
     }
   });
 
@@ -93,7 +97,6 @@ $(document).ready(function ($) {
                   window.location.href = path;
                   destroyOmniSearch();
                   break;
-
               }
               break;
 
@@ -115,14 +118,12 @@ $(document).ready(function ($) {
                   window.location.href = path;
                   destroyOmniSearch();
                   break;
-
               }
               break;
-
           }
         });
       getOmnisearchData();
-      // Deactivates the sorting when selecting multiple options.
+
       omniSelectElement.on('select2:select', function (e) {
         var selection = e.params.data;
         switch (selection.type) {
@@ -139,16 +140,19 @@ $(document).ready(function ($) {
               .next('.select2.select2-container')
               .attr('data-visible-selected', selectedText);
             break;
-
         }
-        var testBox = document.querySelector('.select2.select2-container');
-        var computedWidth = window.getComputedStyle(testBox, ':after').width;
+        /*
+      Inserts the selected value into the searchfield
+         and adds left padding to the input field
+        */
+        var searchBox = document.querySelector('.select2.select2-container');
+        var computedWidth = window.getComputedStyle(searchBox, ':after').width;
         $('.select2-search__field').css('padding-left', computedWidth);
         var elm = e.params.data.element;
-        $elm = $(elm);
-        $t = $(this);
-        $t.append($elm);
-        $t.trigger('change.select2');
+        $element = $(elm);
+        $this = $(this);
+        $this.append($element);
+        $this.trigger('change.select2');
       });
       $('.omni-search').removeClass('hidden');
     });
@@ -211,7 +215,6 @@ $(document).ready(function ($) {
           },
         ]);
         break;
-
     }
   }
 
@@ -258,18 +261,16 @@ $(document).ready(function ($) {
           0 &&
         searchFieldInputLength == 0;
       switch (e.keyCode) {
-        case 8:
+        case key.backspace:
           if (hasSelection) {
             destroyOmniSearch();
             initOmniSearch();
           }
-
           break;
 
-        case 27:
+        case key.escape:
           destroyOmniSearch();
           break;
-
       }
     });
   }
