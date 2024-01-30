@@ -131,7 +131,7 @@ $(document).ready(function ($) {
             break;
 
           case 'project':
-            var selectedText = 'Projekter // ' + e.params.data.text + ' //';
+            var selectedText = 'Projects // ' + e.params.data.text + ' //';
             $(omniSelectElement)
               .next('.select2.select2-container')
               .attr('data-visible-selected', selectedText);
@@ -174,7 +174,7 @@ $(document).ready(function ($) {
             children: [
               {
                 id: data.id,
-                text: 'Navigate to To-Do',
+                text: 'Open',
                 type: 'taskAction',
                 action: 'goto',
               },
@@ -197,13 +197,13 @@ $(document).ready(function ($) {
             children: [
               {
                 id: data.id,
-                text: 'Go To',
+                text: 'Go to',
                 type: 'projectAction',
                 action: 'goto',
               },
               {
                 id: data.id,
-                text: 'Create new To-Do',
+                text: 'Create To-Do',
                 type: 'projectAction',
                 action: 'createnew',
               },
