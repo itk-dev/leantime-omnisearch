@@ -4,11 +4,13 @@ $(document).ready(function ($) {
     task: "fa fa-fw fa-tasks",
     project: "fa fa-fw fa-shapes",
   };
+
   // Append overlay
   $("body").append(`
       <div class="omni-search hidden">
           <select class="js-example-basic-multiple" name="actions[]"></select>
       </div>`);
+
   const omniSelectElement = $("body .omni-search > select");
 
   $("div.omni-search").on("click", function (e) {
@@ -17,12 +19,14 @@ $(document).ready(function ($) {
       destroyOmniSearch();
     }
   });
+
   $("div.content-container").on("click", function (e) {
     // Close overlay when clicking outside (when logging time).
     if ($(e.target).hasClass("content-container")) {
       destroyOmniSearch();
     }
   });
+
   // Event for init and destroy
   $("body").on("keydown", function (e) {
     const keyCode = e.keyCode;
@@ -197,6 +201,7 @@ $(document).ready(function ($) {
         break;
     }
   }
+
   // Set data and refresh select2.
   function reinitOmniSearchWithData(data) {
     omniSelectElement
@@ -258,6 +263,7 @@ $(document).ready(function ($) {
   function getAllProjects() {
     return callApi("leantime.rpc.projects.getAll", {});
   }
+
   function getUserTickets() {
     return callApi("leantime.rpc.tickets.getAll", {
       searchCriteria: {
@@ -265,6 +271,7 @@ $(document).ready(function ($) {
       },
     });
   }
+
   function callApi(method, params) {
     return new Promise((resolve, reject) => {
       $.ajax({
