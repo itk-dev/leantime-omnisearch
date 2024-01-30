@@ -25,7 +25,7 @@ body.prevent-scroll {
   z-index: 99999;
 }
 
-.omni-search[data-state="default"] > span.loader {
+.omni-search[data-state='default'] > span.loader {
   display: none;
 }
 
@@ -90,9 +90,9 @@ body.prevent-scroll {
 }
 
 .js-example-basic-multiple.loading + span.select2:before {
-  font-family: "Font Awesome 5 Free";
+  font-family: 'Font Awesome 5 Free';
   font-weight: 900;
-  content: "\f1ce";
+  content: '\f1ce';
   position: absolute;
   right: 15px;
   top: 15px;

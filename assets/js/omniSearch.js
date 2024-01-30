@@ -1,41 +1,40 @@
 $(document).ready(function ($) {
   const userId = omniSearch.settings.userId;
   const elementIcons = {
-    task: "fa fa-fw fa-tasks",
-    project: "fa fa-fw fa-shapes",
+    task: 'fa fa-fw fa-tasks',
+    project: 'fa fa-fw fa-shapes',
   };
 
   // Append overlay
-  $("body").append(`
+  $('body').append(`
       <div class="omni-search hidden">
           <select class="js-example-basic-multiple" name="actions[]"></select>
       </div>`);
 
-  const omniSelectElement = $("body .omni-search > select");
-
-  $("div.omni-search").on("click", function (e) {
+  const omniSelectElement = $('body .omni-search > select');
+  $('div.omni-search').on('click', function (e) {
     // Close overlay when clicking outside.
-    if ($(e.target).hasClass("omni-search")) {
+    if ($(e.target).hasClass('omni-search')) {
       destroyOmniSearch();
     }
   });
 
-  $("div.content-container").on("click", function (e) {
+  $('div.content-container').on('click', function (e) {
     // Close overlay when clicking outside (when logging time).
-    if ($(e.target).hasClass("content-container")) {
+    if ($(e.target).hasClass('content-container')) {
       destroyOmniSearch();
     }
   });
 
   // Event for init and destroy
-  $("body").on("keydown", function (e) {
+  $('body').on('keydown', function (e) {
     const keyCode = e.keyCode;
     switch (keyCode) {
       case 27: // escape key.
         destroyOmniSearch();
         break;
       case 190: // dot key.
-        if (!$("input, textarea").is(":focus")) {
+        if (!$('input, textarea').is(':focus')) {
           initOmniSearch();
         }
         break;
@@ -44,18 +43,18 @@ $(document).ready(function ($) {
 
   // Init select2, get data, set events.
   function initOmniSearch() {
-    $("body").addClass("prevent-scroll");
-    omniSelectElement.addClass("loading");
-    if ($(".omni-search").hasClass("hidden") === false) {
+    $('body').addClass('prevent-scroll');
+    omniSelectElement.addClass('loading');
+    if ($('.omni-search').hasClass('hidden') === false) {
       return false;
     }
 
-    $.fn.select2.amd.require(["select2/selection/search"], function (Search) {
+    $.fn.select2.amd.require(['select2/selection/search'], function (Search) {
       var oldRemoveChoice = Search.prototype.searchRemoveChoice;
 
       Search.prototype.searchRemoveChoice = function () {
         oldRemoveChoice.apply(this, arguments);
-        this.$search.val("");
+        this.$search.val('');
       };
 
       // Init select2
@@ -63,48 +62,48 @@ $(document).ready(function ($) {
         .select2({
           multiple: true,
         })
-        .on("select2:select", function (e) {
+        .on('select2:select', function (e) {
           const data = e.params.data;
-          $(".select2-search__field").val(data.text);
+          $('.select2-search__field').val(data.text);
           switch (data.type) {
-            case "project":
-              $(".selected-value").text(data.text);
-              reinitOmniSearchForType("project", data);
+            case 'project':
+              $('.selected-value').text(data.text);
+              reinitOmniSearchForType('project', data);
               break;
-            case "task":
-              $(".selected-value").text(data.text);
-              reinitOmniSearchForType("task", data);
+            case 'task':
+              $('.selected-value').text(data.text);
+              reinitOmniSearchForType('task', data);
               break;
-            case "taskAction":
+            case 'taskAction':
               var ticketId = e.params.data.id;
               action = e.params.data.action;
               switch (action) {
-                case "goto":
-                  path = "?tab=ticketdetails#/tickets/showTicket/" + ticketId;
+                case 'goto':
+                  path = '?tab=ticketdetails#/tickets/showTicket/' + ticketId;
                   window.location.href = path;
                   destroyOmniSearch();
                   break;
-                case "logtime":
-                  path = "?tab=timesheet#/tickets/showTicket/" + ticketId;
+                case 'logtime':
+                  path = '?tab=timesheet#/tickets/showTicket/' + ticketId;
                   window.location.href = path;
                   destroyOmniSearch();
                   break;
               }
               break;
-            case "projectAction":
+            case 'projectAction':
               var projectId = e.params.data.id;
               action = e.params.data.action;
               switch (action) {
-                case "goto":
-                  path = "/projects/changeCurrentProject/" + projectId;
+                case 'goto':
+                  path = '/projects/changeCurrentProject/' + projectId;
                   window.location.href = path;
                   destroyOmniSearch();
                   break;
-                case "createnew":
+                case 'createnew':
                   path =
-                    "/projects/changeCurrentProject/" +
+                    '/projects/changeCurrentProject/' +
                     projectId +
-                    "#/tickets/newTicket";
+                    '#/tickets/newTicket';
                   window.location.href = path;
                   destroyOmniSearch();
                   break;
@@ -114,86 +113,86 @@ $(document).ready(function ($) {
         });
       getOmnisearchData();
       // Deactivates the sorting when selecting multiple options.
-      omniSelectElement.on("select2:select", function (e) {
+      omniSelectElement.on('select2:select', function (e) {
         var selection = e.params.data;
         switch (selection.type) {
-          case "task":
-            var selectedText = "To-Do's // " + e.params.data.text + " //";
+          case 'task':
+            var selectedText = "To-Do's // " + e.params.data.text + ' //';
             $(omniSelectElement)
-              .next(".select2.select2-container")
-              .attr("data-visible-selected", selectedText);
+              .next('.select2.select2-container')
+              .attr('data-visible-selected', selectedText);
             break;
-          case "project":
-            var selectedText = "Projekter // " + e.params.data.text + " //";
+          case 'project':
+            var selectedText = 'Projekter // ' + e.params.data.text + ' //';
             $(omniSelectElement)
-              .next(".select2.select2-container")
-              .attr("data-visible-selected", selectedText);
+              .next('.select2.select2-container')
+              .attr('data-visible-selected', selectedText);
             break;
         }
-        var testBox = document.querySelector(".select2.select2-container");
-        var computedWidth = window.getComputedStyle(testBox, ":after").width;
-        $(".select2-search__field").css("padding-left", computedWidth);
+        var testBox = document.querySelector('.select2.select2-container');
+        var computedWidth = window.getComputedStyle(testBox, ':after').width;
+        $('.select2-search__field').css('padding-left', computedWidth);
         var elm = e.params.data.element;
         $elm = $(elm);
         $t = $(this);
         $t.append($elm);
-        $t.trigger("change.select2");
+        $t.trigger('change.select2');
       });
-      $(".omni-search").removeClass("hidden");
+      $('.omni-search').removeClass('hidden');
     });
   }
 
   // Close overlay.
   function destroyOmniSearch() {
     omniSelectElement.off();
-    $("body").removeClass("prevent-scroll");
-    omniSelectElement.empty().trigger("change");
-    $("body .omni-search").addClass("hidden");
-    $("body .select2-container").remove();
+    $('body').removeClass('prevent-scroll');
+    omniSelectElement.empty().trigger('change');
+    $('body .omni-search').addClass('hidden');
+    $('body .select2-container').remove();
   }
 
   // Set up select content based on selected element.
   function reinitOmniSearchForType(type, data) {
     switch (type) {
-      case "task": // ToDo.
+      case 'task': // ToDo.
         reinitOmniSearchWithData([
           {
-            id: "",
-            text: "action",
+            id: '',
+            text: 'action',
             children: [
               {
                 id: data.id,
-                text: "Go To",
-                type: "taskAction",
-                action: "goto",
+                text: 'Go To',
+                type: 'taskAction',
+                action: 'goto',
               },
               {
                 id: data.id,
-                text: "Log Time",
-                type: "taskAction",
-                action: "logtime",
+                text: 'Log Time',
+                type: 'taskAction',
+                action: 'logtime',
               },
             ],
           },
         ]);
         break;
-      case "project": // Project.
+      case 'project': // Project.
         reinitOmniSearchWithData([
           {
-            id: "",
-            text: "action",
+            id: '',
+            text: 'action',
             children: [
               {
                 id: data.id,
-                text: "Go To",
-                type: "projectAction",
-                action: "goto",
+                text: 'Go To',
+                type: 'projectAction',
+                action: 'goto',
               },
               {
                 id: data.id,
-                text: "Create new To-Do",
-                type: "projectAction",
-                action: "createnew",
+                text: 'Create new To-Do',
+                type: 'projectAction',
+                action: 'createnew',
               },
             ],
           },
@@ -205,7 +204,7 @@ $(document).ready(function ($) {
   // Set data and refresh select2.
   function reinitOmniSearchWithData(data) {
     omniSelectElement
-      .select2("destroy")
+      .select2('destroy')
       .empty()
       .select2({
         data: data,
@@ -215,33 +214,33 @@ $(document).ready(function ($) {
             '<div class="select2-results__option-container">' +
               (data.type
                 ? "<span class='" + elementIcons[data.type] + "'></span>"
-                : "") +
+                : '') +
               data.text +
-              "</div>",
+              '</div>'
           );
           if (data.tags) {
-            $(container).attr("data-tags", data.tags);
+            $(container).attr('data-tags', data.tags);
           }
           if (data.type) {
-            $(container).attr("data-type", data.type);
+            $(container).attr('data-type', data.type);
           }
           if (data.client) {
-            $(container).attr("data-client", data.client);
+            $(container).attr('data-client', data.client);
           }
           return $state;
         },
         matcher: matcher,
       })
-      .trigger("change")
-      .select2("open");
+      .trigger('change')
+      .select2('open');
 
     // Listens for escape key to close omni-search overlay when select2 is in focus.
-    $("body .select2-search__field").on("keydown", (e) => {
-      var searchFieldInputLength = $("body .select2-search__field").val()
+    $('body .select2-search__field').on('keydown', (e) => {
+      var searchFieldInputLength = $('body .select2-search__field').val()
         .length;
       var hasSelection =
-        $(".select2.select2-container").attr("data-visible-selected") &&
-        $(".select2.select2-container").attr("data-visible-selected").length >
+        $('.select2.select2-container').attr('data-visible-selected') &&
+        $('.select2.select2-container').attr('data-visible-selected').length >
           0 &&
         searchFieldInputLength == 0;
       switch (e.keyCode) {
@@ -261,11 +260,11 @@ $(document).ready(function ($) {
 
   // Api
   function getAllProjects() {
-    return callApi("leantime.rpc.projects.getAll", {});
+    return callApi('leantime.rpc.projects.getAll', {});
   }
 
   function getUserTickets() {
-    return callApi("leantime.rpc.tickets.getAll", {
+    return callApi('leantime.rpc.tickets.getAll', {
       searchCriteria: {
         userId: userId,
       },
@@ -275,15 +274,15 @@ $(document).ready(function ($) {
   function callApi(method, params) {
     return new Promise((resolve, reject) => {
       $.ajax({
-        url: leantime.appUrl + "/api/jsonrpc/",
-        method: "POST",
+        url: leantime.appUrl + '/api/jsonrpc/',
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         data: JSON.stringify({
           method: method,
-          jsonrpc: "2.0",
-          id: "1",
+          jsonrpc: '2.0',
+          id: '1',
           params: params,
         }),
         success: resolve,
@@ -299,8 +298,8 @@ $(document).ready(function ($) {
     let projects = getAllProjects().then((data) => {
       var projects = data.result;
       const projectGroup = {
-        id: "project",
-        text: "Projects",
+        id: 'project',
+        text: 'Projects',
         children: [],
         index: 1,
       };
@@ -308,7 +307,7 @@ $(document).ready(function ($) {
         let option = {
           id: project.id,
           text: project.name,
-          type: "project",
+          type: 'project',
           client: project.clientName,
         };
         projectGroup.children.push(option);
@@ -318,10 +317,10 @@ $(document).ready(function ($) {
 
     let tickets = getUserTickets().then((data) => {
       var result = data.result;
-      let tickets = result.filter((result) => result.type === "task");
+      let tickets = result.filter((result) => result.type === 'task');
       const ticketGroup = {
-        id: "task",
-        text: "To-Do´s",
+        id: 'task',
+        text: 'To-Do´s',
         children: [],
         index: 2,
       };
@@ -347,7 +346,7 @@ $(document).ready(function ($) {
           return a.index - b.index;
         });
         reinitOmniSearchWithData(availableTags);
-        omniSelectElement.removeClass("loading");
+        omniSelectElement.removeClass('loading');
       });
     });
   }
@@ -379,9 +378,9 @@ $(document).ready(function ($) {
       data.projectName,
       data.client,
     ]
-      .join(" ")
+      .join(' ')
       .toLowerCase();
-    const term = params.term ? params.term.toLowerCase() : "";
+    const term = params.term ? params.term.toLowerCase() : '';
 
     if (!term.trim() || fuzzySearch(term, original)) {
       return data;
@@ -392,7 +391,10 @@ $(document).ready(function ($) {
         .map((child) => matcher(params, child))
         .filter(Boolean);
       if (matchedChildren.length > 0) {
-        return { ...data, children: matchedChildren };
+        return {
+          ...data,
+          children: matchedChildren,
+        };
       }
     }
 
