@@ -1,6 +1,6 @@
 {
     "name": "leantime/omnisearch",
-    "description": "(ITKDev) Leantime OmniSearch",
+    "description": "Enables a site-wide shortcut tool to access projects and todos in a faster manner. When enabled, press the [period key] and search away!",
     "version": "1.0",
     "authors": [
         {
