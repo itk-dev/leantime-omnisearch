@@ -1,9 +1,5 @@
 $(document).ready(function ($) {
   const userId = omniSearch.settings.userId;
-  const elementIcons = {
-    task: 'fa fa-fw fa-tasks',
-    project: 'fa fa-fw fa-shapes',
-  };
   const key = {
     escape: 27,
     period: 190,
@@ -174,11 +170,11 @@ $(document).ready(function ($) {
         reinitOmniSearchWithData([
           {
             id: '',
-            text: 'action',
+            text: 'Actions',
             children: [
               {
                 id: data.id,
-                text: 'Go To',
+                text: 'Navigate to To-Do',
                 type: 'taskAction',
                 action: 'goto',
               },
@@ -197,7 +193,7 @@ $(document).ready(function ($) {
         reinitOmniSearchWithData([
           {
             id: '',
-            text: 'action',
+            text: 'Actions',
             children: [
               {
                 id: data.id,
@@ -229,9 +225,6 @@ $(document).ready(function ($) {
           // Setup custom options with icon and data values.
           var $state = $(
             '<div class="select2-results__option-container">' +
-              (data.type
-                ? "<span class='" + elementIcons[data.type] + "'></span>"
-                : '') +
               data.text +
               '</div>'
           );
@@ -282,9 +275,9 @@ $(document).ready(function ($) {
 
   function getUserTickets() {
     return callApi('leantime.rpc.tickets.getAll', {
-      searchCriteria: {
-        userId: userId,
-      },
+      // searchCriteria: {
+      userId: userId,
+      // },
     });
   }
 
