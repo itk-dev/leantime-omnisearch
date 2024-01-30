@@ -33,11 +33,13 @@ $(document).ready(function ($) {
       case 27: // escape key.
         destroyOmniSearch();
         break;
+
       case 190: // dot key.
         if (!$('input, textarea').is(':focus')) {
           initOmniSearch();
         }
         break;
+
     }
   });
 
@@ -70,10 +72,12 @@ $(document).ready(function ($) {
               $('.selected-value').text(data.text);
               reinitOmniSearchForType('project', data);
               break;
+
             case 'task':
               $('.selected-value').text(data.text);
               reinitOmniSearchForType('task', data);
               break;
+
             case 'taskAction':
               var ticketId = e.params.data.id;
               action = e.params.data.action;
@@ -83,13 +87,16 @@ $(document).ready(function ($) {
                   window.location.href = path;
                   destroyOmniSearch();
                   break;
+
                 case 'logtime':
                   path = '?tab=timesheet#/tickets/showTicket/' + ticketId;
                   window.location.href = path;
                   destroyOmniSearch();
                   break;
+
               }
               break;
+
             case 'projectAction':
               var projectId = e.params.data.id;
               action = e.params.data.action;
@@ -99,6 +106,7 @@ $(document).ready(function ($) {
                   window.location.href = path;
                   destroyOmniSearch();
                   break;
+
                 case 'createnew':
                   path =
                     '/projects/changeCurrentProject/' +
@@ -107,8 +115,10 @@ $(document).ready(function ($) {
                   window.location.href = path;
                   destroyOmniSearch();
                   break;
+
               }
               break;
+
           }
         });
       getOmnisearchData();
@@ -122,12 +132,14 @@ $(document).ready(function ($) {
               .next('.select2.select2-container')
               .attr('data-visible-selected', selectedText);
             break;
+
           case 'project':
             var selectedText = 'Projekter // ' + e.params.data.text + ' //';
             $(omniSelectElement)
               .next('.select2.select2-container')
               .attr('data-visible-selected', selectedText);
             break;
+
         }
         var testBox = document.querySelector('.select2.select2-container');
         var computedWidth = window.getComputedStyle(testBox, ':after').width;
@@ -176,6 +188,7 @@ $(document).ready(function ($) {
           },
         ]);
         break;
+
       case 'project': // Project.
         reinitOmniSearchWithData([
           {
@@ -198,6 +211,7 @@ $(document).ready(function ($) {
           },
         ]);
         break;
+
     }
   }
 
@@ -251,9 +265,11 @@ $(document).ready(function ($) {
           }
 
           break;
+
         case 27:
           destroyOmniSearch();
           break;
+
       }
     });
   }
