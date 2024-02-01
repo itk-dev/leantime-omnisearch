@@ -415,12 +415,9 @@ $(document).ready(function ($) {
   }
 
   function populateLastUpdated() {
-    console.log('hallo');
     let projectLastUpdated = readFromCache('projects').expiration;
     let ticketsLastUpdated = readFromCache('tickets').expiration;
 
-    console.log(projectLastUpdated);
-    console.log(ticketsLastUpdated);
     let projectsLastUpdatedElement =
       '<span>Projects: ' +
       Math.round((Date.now() - projectLastUpdated) / 1000 / 60) +
