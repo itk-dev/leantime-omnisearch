@@ -101,9 +101,11 @@ body.prevent-scroll {
   z-index: 9;
   animation: spin 2s linear infinite;
 }
+
 .omni-search-panel:empty {
   display: none;
 }
+
 .omni-search-panel {
   position: absolute;
   display: flex;
@@ -115,9 +117,11 @@ body.prevent-scroll {
   width: 225px;
   height: 50px;
 }
+
 .omni-search-panel > div:first-child {
   flex: 2;
 }
+
 .omni-search-panel > div:first-child > button {
   width: 100%;
   background-color: #fff;
@@ -127,18 +131,22 @@ body.prevent-scroll {
   color: #fff !important;
   font-size: 13px;
 }
+
 .omni-search-panel > div:first-child > button > span {
   border-bottom: 1px solid #000;
 }
+
 .omni-search-panel > div:first-child > button > span > i {
   margin-right: 5px;
 }
+
 .omni-search-panel > div {
   flex: 1;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
+
 .omni-search-panel > div > span {
   font-size: 11px;
   margin: auto 0;
