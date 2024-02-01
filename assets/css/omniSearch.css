@@ -92,16 +92,18 @@ body.prevent-scroll {
 .js-example-basic-multiple.loading + span.select2:before {
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
-  content: '\f1ce';
+  content: '\f021';
   position: absolute;
   right: 15px;
   top: 15px;
   font-size: 20px;
   margin: auto;
   z-index: 9;
-  animation: spin 1.2s infinite;
+  animation: spin 2s linear infinite;
 }
-
+.omni-search-panel:empty {
+  display: none;
+}
 .omni-search-panel {
   position: absolute;
   display: flex;
