@@ -289,9 +289,9 @@ $(document).ready(function ($) {
 
   function getUserTickets() {
     return callApi('leantime.rpc.tickets.getAll', {
-      // searchCriteria: {
-      userId: userId,
-      // },
+      searchCriteria: {
+        userId: userId,
+      },
     });
   }
 
@@ -397,7 +397,8 @@ $(document).ready(function ($) {
 
   function setOmnisearchData() {
     if (isFetching) {
-      setTimeout(() => { // If already fetching, recall for cached result.
+      setTimeout(() => {
+        // If already fetching, recall for cached result.
         setOmnisearchData();
       }, 500);
     } else {
