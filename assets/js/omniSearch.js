@@ -176,7 +176,6 @@ $(document).ready(function ($) {
 
   // Set up select content based on selected element.
   function reinitOmniSearchForType(type, data) {
-
     switch (type) {
       case 'task': // ToDo.
         reinitOmniSearchWithData([
@@ -388,7 +387,8 @@ $(document).ready(function ($) {
     const data = results
       .filter((result) => result.status === 'fulfilled')
       .map((result) => result.value)
-      .sort(function (a, b) { // Sort by index.
+      .sort(function (a, b) {
+        // Sort by index.
         return a.index - b.index;
       });
 
