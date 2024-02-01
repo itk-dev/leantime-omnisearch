@@ -9,8 +9,8 @@ $(document).ready(function ($) {
     period: 190,
     backspace: 8,
   };
-  let isFetching = false;
-  let isVisible = false;
+  let isFetching = false; // Is data being fetched
+  let isVisible = false; // Is overlay visible
 
   // Fetch new data if cache is stale
   fetchOmnisearchData();
@@ -397,7 +397,7 @@ $(document).ready(function ($) {
 
   function setOmnisearchData() {
     if (isFetching) {
-      setTimeout(() => {
+      setTimeout(() => { // If already fetching, recall for cached result.
         setOmnisearchData();
       }, 500);
     } else {
