@@ -102,6 +102,47 @@ body.prevent-scroll {
   animation: spin 1.2s infinite;
 }
 
+.omni-search-panel {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: #fff;
+  right: 0;
+  bottom: 0;
+  width: 225px;
+  height: 50px;
+}
+.omni-search-panel > div:first-child {
+  flex: 2;
+}
+.omni-search-panel > div:first-child > button {
+  width: 100%;
+  background-color: #fff;
+  border: none;
+  border-bottom: 1px solid #999;
+  background-color: #111;
+  color: #fff !important;
+  font-size: 13px;
+}
+.omni-search-panel > div:first-child > button > span {
+  border-bottom: 1px solid #000;
+}
+.omni-search-panel > div:first-child > button > span > i {
+  margin-right: 5px;
+}
+.omni-search-panel > div {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.omni-search-panel > div > span {
+  font-size: 11px;
+  margin: auto 0;
+  color: #000;
+}
+
 @keyframes spin {
   100% {
     transform: rotate(360deg);

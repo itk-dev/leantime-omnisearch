@@ -19,9 +19,11 @@ $(document).ready(function ($) {
   $('body').append(`
       <div class="omni-search hidden">
           <select class="js-example-basic-multiple" name="actions[]"></select>
+          <div class="omni-search-panel"></div>
       </div>`);
 
   const omniSelectElement = $('body .omni-search > select');
+  const omniSelectPanelElement = $('body .omni-search > .omni-search-panel');
   $('div.omni-search').on('click', function (e) {
     // Close overlay when clicking outside.
     if ($(e.target).hasClass('omni-search')) {
@@ -57,7 +59,6 @@ $(document).ready(function ($) {
     isFetching = false;
     isVisible = true;
     $('body').addClass('prevent-scroll');
-    omniSelectElement.addClass('loading');
     if ($('.omni-search').hasClass('hidden') === false) {
       return false;
     }
@@ -171,6 +172,7 @@ $(document).ready(function ($) {
     omniSelectElement.empty().trigger('change');
     $('body .omni-search').addClass('hidden');
     $('body .select2-container').remove();
+    omniSelectPanelElement.empty();
     isVisible = false;
   }
 
@@ -289,9 +291,9 @@ $(document).ready(function ($) {
 
   function getUserTickets() {
     return callApi('leantime.rpc.tickets.getAll', {
-      searchCriteria: {
-        userId: userId,
-      },
+      // searchCriteria: {
+      userId: userId,
+      // },
     });
   }
 
@@ -396,6 +398,7 @@ $(document).ready(function ($) {
   }
 
   function setOmnisearchData() {
+    omniSelectElement.addClass('loading');
     if (isFetching) {
       setTimeout(() => {
         // If already fetching, recall for cached result.
@@ -406,10 +409,49 @@ $(document).ready(function ($) {
         isFetching = false;
         reinitOmniSearchWithData(availableTags);
         omniSelectElement.removeClass('loading');
+        populateLastUpdated();
       });
     }
   }
 
+  function populateLastUpdated() {
+    console.log('hallo');
+    let projectLastUpdated = readFromCache('projects').expiration;
+    let ticketsLastUpdated = readFromCache('tickets').expiration;
+
+    console.log(projectLastUpdated);
+    console.log(ticketsLastUpdated);
+    let projectsLastUpdatedElement =
+      '<span>Projects: ' +
+      Math.round((Date.now() - projectLastUpdated) / 1000 / 60) +
+      ' min ago.</span>';
+    let ticketsLastUpdatedElement =
+      '<span>Tickets: ' +
+      Math.round((Date.now() - ticketsLastUpdated) / 1000 / 60) +
+      ' min ago.</span>';
+    omniSelectPanelElement.html(
+      '<div><button id="refreshBtn"><span><i class="fa-solid fa-arrows-rotate"></i>Sync data</span></button></div><div>' +
+        projectsLastUpdatedElement +
+        ticketsLastUpdatedElement +
+        '</div>'
+    );
+
+    $('#refreshBtn').on('click', function (e) {
+      if (isFetching) {
+        return false;
+      }
+      $(this)
+        .children('span')
+        .html('<i class="fa-solid fa-arrows-rotate fa-spin"></i>Syncing data');
+      refreshOmniSearch();
+    });
+  }
+
+  function refreshOmniSearch() {
+    removeFromCache('projects');
+    removeFromCache('tickets');
+    setOmnisearchData();
+  }
   function fuzzySearch(needle, haystack) {
     needle = needle.toLowerCase();
     haystack = haystack.toLowerCase();
@@ -460,6 +502,9 @@ $(document).ready(function ($) {
     return null;
   }
 
+  function removeFromCache(item) {
+    localStorage.removeItem(item);
+  }
   function writeToCache(item, data) {
     localStorage.setItem(item, JSON.stringify(data));
   }
