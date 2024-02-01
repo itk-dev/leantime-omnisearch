@@ -13,9 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added caching.
 
+### Fixed
+
+- Bug where data would load in after overlay close.
+
 ## [1.0.1] 2024-01-31
 
-### fixed
+### Fixed
 
 - Readded searchCriteria api parameter for LT 2.4.8.
 
