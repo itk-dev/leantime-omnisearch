@@ -449,6 +449,7 @@ $(document).ready(function ($) {
     removeFromCache('tickets');
     setOmnisearchData();
   }
+
   function fuzzySearch(needle, haystack) {
     needle = needle.toLowerCase();
     haystack = haystack.toLowerCase();
@@ -502,12 +503,15 @@ $(document).ready(function ($) {
   function removeFromCache(item) {
     localStorage.removeItem(item);
   }
+
   function writeToCache(item, data) {
     localStorage.setItem(item, JSON.stringify(data));
   }
+
   function readFromCache(item) {
     return JSON.parse(localStorage.getItem(item)) || null;
   }
+
   function getCacheData(item) {
     const cacheData = readFromCache(item);
 
@@ -521,4 +525,5 @@ $(document).ready(function ($) {
 
     return cacheDataExpired ? false : cacheData.data;
   }
+
 });
