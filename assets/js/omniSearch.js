@@ -1,10 +1,19 @@
 $(document).ready(function ($) {
+  const cacheTimeouts = {
+    project: 14400, // 4 hours
+    tickets: 7200, // 2 hours
+  };
   const userId = omniSearch.settings.userId;
   const key = {
     escape: 27,
     period: 190,
     backspace: 8,
   };
+  let isFetching = false;
+  let isVisible = false;
+
+  // Fetch new data if cache is stale
+  fetchOmnisearchData();
 
   // Append overlay
   $('body').append(`
@@ -45,6 +54,8 @@ $(document).ready(function ($) {
 
   // Init select2, get data, set events.
   function initOmniSearch() {
+    isFetching = false;
+    isVisible = true;
     $('body').addClass('prevent-scroll');
     omniSelectElement.addClass('loading');
     if ($('.omni-search').hasClass('hidden') === false) {
@@ -118,8 +129,7 @@ $(document).ready(function ($) {
               break;
           }
         });
-      getOmnisearchData();
-
+      setOmnisearchData();
       omniSelectElement.on('select2:select', function (e) {
         var selection = e.params.data;
         switch (selection.type) {
@@ -161,10 +171,12 @@ $(document).ready(function ($) {
     omniSelectElement.empty().trigger('change');
     $('body .omni-search').addClass('hidden');
     $('body .select2-container').remove();
+    isVisible = false;
   }
 
   // Set up select content based on selected element.
   function reinitOmniSearchForType(type, data) {
+
     switch (type) {
       case 'task': // ToDo.
         reinitOmniSearchWithData([
@@ -216,6 +228,9 @@ $(document).ready(function ($) {
 
   // Set data and refresh select2.
   function reinitOmniSearchWithData(data) {
+    if (!isVisible || data.length === 0) {
+      return false;
+    }
     omniSelectElement
       .select2('destroy')
       .empty()
@@ -275,9 +290,9 @@ $(document).ready(function ($) {
 
   function getUserTickets() {
     return callApi('leantime.rpc.tickets.getAll', {
-      searchCriteria: {
-        userId: userId,
-      },
+      // searchCriteria: {
+      userId: userId,
+      // },
     });
   }
 
@@ -301,64 +316,97 @@ $(document).ready(function ($) {
     });
   }
 
-  // Get data for initial load.
-  function getOmnisearchData() {
-    var availableTags = [];
+  async function fetchOmnisearchData() {
+    let projectPromise;
+    let ticketPromise;
+    let projectCacheData = getCacheData('projects');
+    isFetching = true;
 
-    let projects = getAllProjects().then((data) => {
-      var projects = data.result;
-      const projectGroup = {
-        id: 'project',
-        text: 'Projects',
-        children: [],
-        index: 1,
-      };
-      projects.forEach((project) => {
-        let option = {
-          id: project.id,
-          text: project.name,
-          type: 'project',
-          client: project.clientName,
+    if (projectCacheData) {
+      projectPromise = Promise.resolve(projectCacheData);
+    } else {
+      projectPromise = getAllProjects().then((data) => {
+        var projects = data.result;
+        const projectGroup = {
+          id: 'project',
+          text: 'Projects',
+          children: [],
+          index: 1,
         };
-        projectGroup.children.push(option);
-      });
-      availableTags.push(projectGroup);
-    });
-
-    let tickets = getUserTickets().then((data) => {
-      var result = data.result;
-      let tickets = result.filter((result) => result.type === 'task');
-      const ticketGroup = {
-        id: 'task',
-        text: 'To-Do´s',
-        children: [],
-        index: 2,
-      };
-      tickets.forEach((ticket) => {
-        let option = {
-          id: ticket.id,
-          text: ticket.headline,
-          type: ticket.type,
-          tags: ticket.tags,
-          sprintName: ticket.sprintName,
-          projectId: ticket.projectId,
-          projectName: ticket.projectName,
-        };
-        ticketGroup.children.push(option);
-      });
-      availableTags.push(ticketGroup);
-    });
-
-    // Sort data by index and return to select2.
-    projects.then(() => {
-      tickets.then(() => {
-        availableTags.sort(function (a, b) {
-          return a.index - b.index;
+        projects.forEach((project) => {
+          let option = {
+            id: project.id,
+            text: project.name,
+            type: 'project',
+            client: project.clientName,
+          };
+          projectGroup.children.push(option);
         });
+        writeToCache('projects', {
+          data: projectGroup,
+          expiration: Date.now(),
+        });
+        return projectGroup;
+      });
+    }
+
+    let ticketCacheData = getCacheData('tickets');
+    if (ticketCacheData) {
+      ticketPromise = Promise.resolve(ticketCacheData);
+    } else {
+      ticketPromise = getUserTickets().then((data) => {
+        var result = data.result;
+        let tickets = result.filter((result) => result.type === 'task');
+        const ticketGroup = {
+          id: 'task',
+          text: 'To-Do´s',
+          children: [],
+          index: 2,
+        };
+        tickets.forEach((ticket) => {
+          let option = {
+            id: ticket.id,
+            text: ticket.headline,
+            type: ticket.type,
+            tags: ticket.tags,
+            sprintName: ticket.sprintName,
+            projectId: ticket.projectId,
+            projectName: ticket.projectName,
+          };
+          ticketGroup.children.push(option);
+        });
+        writeToCache('tickets', {
+          data: ticketGroup,
+          expiration: Date.now(),
+        });
+        return ticketGroup;
+      });
+    }
+
+    const promises = [projectPromise, ticketPromise];
+    const results = await Promise.allSettled(promises);
+    const data = results
+      .filter((result) => result.status === 'fulfilled')
+      .map((result) => result.value)
+      .sort(function (a, b) { // Sort by index.
+        return a.index - b.index;
+      });
+
+    return data;
+  }
+
+  function setOmnisearchData() {
+    if (isFetching) {
+      setTimeout(() => {
+        setOmnisearchData();
+      }, 500);
+    } else {
+      fetchOmnisearchData().then((availableTags) => {
+        isFetching = false;
         reinitOmniSearchWithData(availableTags);
         omniSelectElement.removeClass('loading');
       });
-    });
+    }
   }
 
   function fuzzySearch(needle, haystack) {
@@ -409,5 +457,25 @@ $(document).ready(function ($) {
     }
 
     return null;
+  }
+
+  function writeToCache(item, data) {
+    localStorage.setItem(item, JSON.stringify(data));
+  }
+  function readFromCache(item) {
+    return JSON.parse(localStorage.getItem(item)) || null;
+  }
+  function getCacheData(item) {
+    const cacheData = readFromCache(item);
+
+    if (!cacheData) {
+      return false;
+    }
+
+    const cacheDataExpiration = cacheData.expiration ?? 0;
+    const cacheTimeoutMs = cacheTimeouts[item] * 1000;
+    const cacheDataExpired = Date.now() - cacheDataExpiration > cacheTimeoutMs;
+
+    return cacheDataExpired ? false : cacheData.data;
   }
 });
