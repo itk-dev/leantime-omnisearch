@@ -1,9 +1,10 @@
 $(document).ready(function ($) {
   const cacheTimeouts = {
-    project: 14400, // 4 hours
+    projects: 14400, // 4 hours
     tickets: 7200, // 2 hours
   };
   const userId = omniSearch.settings.userId;
+  console.log(omniSearch.settings.projectCacheExpiration);
   const key = {
     escape: 27,
     period: 190,
