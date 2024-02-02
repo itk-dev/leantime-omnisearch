@@ -1,10 +1,9 @@
 $(document).ready(function ($) {
   const cacheTimeouts = {
-    projects: 14400, // 4 hours
-    tickets: 7200, // 2 hours
+    projects: parseFloat(omniSearch.settings.projectCacheExpiration),
+    tickets: parseFloat(omniSearch.settings.ticketCacheExpiration),
   };
   const userId = omniSearch.settings.userId;
-  console.log(omniSearch.settings.projectCacheExpiration);
   const key = {
     escape: 27,
     period: 190,
@@ -421,11 +420,11 @@ $(document).ready(function ($) {
 
     let projectsLastUpdatedElement =
       '<span>Projects: ' +
-      Math.round((Date.now() - projectLastUpdated) / 1000 / 60) +
+      Math.round((Date.now() - projectLastUpdated) / 60000) + // Convert ms to minutes
       ' min ago.</span>';
     let ticketsLastUpdatedElement =
       '<span>Tickets: ' +
-      Math.round((Date.now() - ticketsLastUpdated) / 1000 / 60) +
+      Math.round((Date.now() - ticketsLastUpdated) / 60000) +
       ' min ago.</span>';
     omniSelectPanelElement.html(
       '<div><button id="refreshBtn"><span><i class="fa-solid fa-arrows-rotate"></i>Sync data</span></button></div><div>' +
@@ -521,10 +520,9 @@ $(document).ready(function ($) {
     }
 
     const cacheDataExpiration = cacheData.expiration ?? 0;
-    const cacheTimeoutMs = cacheTimeouts[item] * 1000;
+    const cacheTimeoutMs = cacheTimeouts[item] * 60000; // Convert minutes to ms
     const cacheDataExpired = Date.now() - cacheDataExpiration > cacheTimeoutMs;
 
     return cacheDataExpired ? false : cacheData.data;
   }
-
 });
