@@ -7,9 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] 2024-02-01
+
+### Added
+
+- Added caching.
+
+### Fixed
+
+- Bug where data would load in after overlay close.
+
 ## [1.0.1] 2024-01-31
 
-### fixed
+### Fixed
 
 - Readded searchCriteria api parameter for LT 2.4.8.
 
@@ -21,5 +31,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added fuzzy search.
 - Install, uninstall script.
 
+[1.1.1]: https://github.com/ITK-Leantime/leantime-omnisearch/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/ITK-Leantime/leantime-omnisearch/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/ITK-Leantime/leantime-omnisearch/releases/tag/1.0.0
