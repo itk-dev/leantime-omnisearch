@@ -289,12 +289,8 @@ $(document).ready(function ($) {
     return callApi('leantime.rpc.projects.getAll', {});
   }
 
-  function getUserTickets() {
-    return callApi('leantime.rpc.tickets.getAll', {
-      searchCriteria: {
-        userId: userId,
-      },
-    });
+  function getAllTickets() {
+    return callApi('leantime.rpc.tickets.getAll', {});
   }
 
   function callApi(method, params) {
@@ -355,7 +351,7 @@ $(document).ready(function ($) {
     if (ticketCacheData) {
       ticketPromise = Promise.resolve(ticketCacheData);
     } else {
-      ticketPromise = getUserTickets().then((data) => {
+      ticketPromise = getAllTickets().then((data) => {
         var result = data.result;
         let tickets = result.filter((result) => result.type === 'task');
         const ticketGroup = {
