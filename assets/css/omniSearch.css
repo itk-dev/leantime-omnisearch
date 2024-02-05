@@ -11,9 +11,12 @@ body.prevent-scroll {
   left: 0;
   height: 100vh;
   width: 100vw;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 99999;
-  animation: fadeIn 0.3s;
+}
+
+.omni-search.hidden > * {
+  display: none;
 }
 
 .omni-search > span.select2 {
@@ -59,7 +62,7 @@ body.prevent-scroll {
 .select2-results__option-container > span {
   margin: auto 5px auto 0;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .select2-container--default .select2-results__group {
@@ -156,14 +159,5 @@ body.prevent-scroll {
 @keyframes spin {
   100% {
     transform: rotate(360deg);
-  }
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
   }
 }
