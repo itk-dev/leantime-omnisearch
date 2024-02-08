@@ -33,12 +33,13 @@ $(document).ready(function ($) {
 
   $('div.content-container').on('click', function (e) {
     // Close overlay when clicking outside (when logging time).
-        if ($(e.target).hasClass('content-container')) {
+    if ($(e.target).hasClass('content-container')) {
       destroyOmniSearch();
-    }});
+    }
+  });
 
   // Event for init and destroy
-        $('body').on('keydown', function (e) {
+  $('body').on('keydown', function (e) {
     const keyCode = e.keyCode;
     switch (keyCode) {
       case key.escape:
@@ -50,7 +51,8 @@ $(document).ready(function ($) {
           initOmniSearch();
         }
         break;
-    }});
+    }
+  });
 
   // Init select2, get data, set events.
   function initOmniSearch() {
@@ -523,5 +525,4 @@ $(document).ready(function ($) {
 
     return cacheDataExpired ? false : cacheData.data;
   }
-
 });
