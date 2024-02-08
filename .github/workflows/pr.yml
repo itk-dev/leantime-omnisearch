@@ -26,5 +26,5 @@ jobs:
 
       - name: Coding standards
         run: |
-          docker run -it --volume ${PWD}:/app --rm node:20 yarn --cwd /app install
-          docker run -it --volume ${PWD}:/app --rm node:20 yarn --cwd /app prettier assets --write
+          docker run --volume ${PWD}:/app --rm node:20 yarn --cwd /app install
+          docker run --volume ${PWD}:/app --rm node:20 yarn --cwd /app prettier assets --write
