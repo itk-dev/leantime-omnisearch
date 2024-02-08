@@ -35,8 +35,8 @@ class Settings extends Controller {
    * @return void
    */
   public function get(): Response {
-    $projectCacheExpiration = $this->settingsRepo->getSetting("omnisearchsettings.projectscache") ?: '14400';
-    $ticketCacheExpiration = $this->settingsRepo->getSetting("omnisearchsettings.ticketscache") ?: '7200';
+    $projectCacheExpiration = $this->settingsRepo->getSetting("omnisearchsettings.projectscache") ?: '2400';
+    $ticketCacheExpiration = $this->settingsRepo->getSetting("omnisearchsettings.ticketscache") ?: '1200';
 
     $this->tpl->assign("projectCacheExpiration", $projectCacheExpiration);
     $this->tpl->assign("ticketCacheExpiration", $ticketCacheExpiration);
