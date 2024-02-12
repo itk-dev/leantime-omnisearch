@@ -414,9 +414,10 @@ $(document).ready(function ($) {
     let projectLastUpdated = readFromCache('projects').expiration;
     let ticketsLastUpdated = readFromCache('tickets').expiration;
 
+    // Convert ms to minutes
     let projectsLastUpdatedElement =
       '<span>Projects: ' +
-      Math.round((Date.now() - projectLastUpdated) / 60000) + // Convert ms to minutes
+      Math.round((Date.now() - projectLastUpdated) / 60000) +
       ' min ago.</span>';
     let ticketsLastUpdatedElement =
       '<span>Tickets: ' +
@@ -516,7 +517,8 @@ $(document).ready(function ($) {
     }
 
     const cacheDataExpiration = cacheData.expiration ?? 0;
-    const cacheTimeoutMs = cacheTimeouts[item] * 60000; // Convert minutes to ms
+    // Convert minutes to ms
+    const cacheTimeoutMs = cacheTimeouts[item] * 60000;
     const cacheDataExpired = Date.now() - cacheDataExpiration > cacheTimeoutMs;
 
     return cacheDataExpired ? false : cacheData.data;
