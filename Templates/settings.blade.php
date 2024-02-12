@@ -11,9 +11,7 @@
 <?php echo $tpl->displayNotification(); ?>
     <div class="maincontentinner">
         <h5 class="subtitle">Omnisearch Settings</h5>
-        <p>These settings will change the way the OmniSearch plugin works.</p>
-        <br />
-        <br />
+        <p style="padding-bottom: 15px">These settings will change the way the OmniSearch plugin works.</p>
         <h4 class="widgettitle title-light"><span class="fa fa-cog"></span>
             Cache expiration durations
         </h4>
