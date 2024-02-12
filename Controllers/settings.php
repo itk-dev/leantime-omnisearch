@@ -9,19 +9,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Leantime\Domain\Setting\Repositories\Setting as SettingRepository;
 
 /**
- * Settings Controller for Motivational Quotes Plugin
+ * Settings Controller for Omnisearch plugin
  *
  * @package    leantime
  * @subpackage plugins
  */
 class Settings extends Controller {
+
   private SettingRepository $settingsRepo;
 
   /**
    * constructor
-   *
    * @access public
-   *
    */
   public function init(
     SettingRepository $settingsRepo,
@@ -30,8 +29,7 @@ class Settings extends Controller {
   }
 
   /**
-   * get
-   *
+   * get method
    * @return void
    */
   public function get(): Response {
@@ -45,8 +43,7 @@ class Settings extends Controller {
   }
 
   /**
-   * post
-   *
+   * post method
    * @param array $params
    * @return void
    */
@@ -54,6 +51,7 @@ class Settings extends Controller {
     $this->settingsRepo->saveSetting("omnisearchsettings.projectscache", htmlspecialchars(addslashes($params['projectCacheExpiration'])));
     $this->settingsRepo->saveSetting("omnisearchsettings.ticketscache", htmlspecialchars(addslashes($params['ticketCacheExpiration'])));
     $this->tpl->setNotification("The settings were successfully saved.", "success");
+
     return Frontcontroller::redirect(BASE_URL . "/OmniSearch/settings");
   }
 }
