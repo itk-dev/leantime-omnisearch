@@ -1,7 +1,7 @@
 $(document).ready(function ($) {
   const cacheTimeouts = {
-    project: 14400, // 4 hours
-    tickets: 7200, // 2 hours
+    projects: parseFloat(omniSearch.settings.projectCacheExpiration),
+    tickets: parseFloat(omniSearch.settings.ticketCacheExpiration),
   };
   const userId = omniSearch.settings.userId;
   const key = {
@@ -289,12 +289,8 @@ $(document).ready(function ($) {
     return callApi('leantime.rpc.projects.getAll', {});
   }
 
-  function getUserTickets() {
-    return callApi('leantime.rpc.tickets.getAll', {
-      searchCriteria: {
-        userId: userId,
-      },
-    });
+  function getAllTickets() {
+    return callApi('leantime.rpc.tickets.getAll', {});
   }
 
   function callApi(method, params) {
@@ -355,7 +351,7 @@ $(document).ready(function ($) {
     if (ticketCacheData) {
       ticketPromise = Promise.resolve(ticketCacheData);
     } else {
-      ticketPromise = getUserTickets().then((data) => {
+      ticketPromise = getAllTickets().then((data) => {
         var result = data.result;
         let tickets = result.filter((result) => result.type === 'task');
         const ticketGroup = {
@@ -418,13 +414,14 @@ $(document).ready(function ($) {
     let projectLastUpdated = readFromCache('projects').expiration;
     let ticketsLastUpdated = readFromCache('tickets').expiration;
 
+    // Convert ms to minutes
     let projectsLastUpdatedElement =
       '<span>Projects: ' +
-      Math.round((Date.now() - projectLastUpdated) / 1000 / 60) +
+      Math.round((Date.now() - projectLastUpdated) / 60000) +
       ' min ago.</span>';
     let ticketsLastUpdatedElement =
       '<span>Tickets: ' +
-      Math.round((Date.now() - ticketsLastUpdated) / 1000 / 60) +
+      Math.round((Date.now() - ticketsLastUpdated) / 60000) +
       ' min ago.</span>';
     omniSelectPanelElement.html(
       '<div><button id="refreshBtn"><span><i class="fa-solid fa-arrows-rotate"></i>Sync data</span></button></div><div>' +
@@ -520,7 +517,8 @@ $(document).ready(function ($) {
     }
 
     const cacheDataExpiration = cacheData.expiration ?? 0;
-    const cacheTimeoutMs = cacheTimeouts[item] * 1000;
+    // Convert minutes to ms
+    const cacheTimeoutMs = cacheTimeouts[item] * 60000;
     const cacheDataExpired = Date.now() - cacheDataExpiration > cacheTimeoutMs;
 
     return cacheDataExpired ? false : cacheData.data;
