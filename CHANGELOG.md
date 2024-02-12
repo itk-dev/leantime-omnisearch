@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] 2024-02-12
+
 ### Fixed
 
 - Typo in cache constant.
@@ -40,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added fuzzy search.
 - Install, uninstall script.
 
-[1.1.1]: https://github.com/ITK-Leantime/leantime-omnisearch/compare/1.0.1...1.1.0
+[1.2.0]: https://github.com/ITK-Leantime/leantime-omnisearch/compare/1.1.0...1.2.0
+[1.1.0]: https://github.com/ITK-Leantime/leantime-omnisearch/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/ITK-Leantime/leantime-omnisearch/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/ITK-Leantime/leantime-omnisearch/releases/tag/1.0.0
