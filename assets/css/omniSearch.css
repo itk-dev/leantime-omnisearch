@@ -11,9 +11,12 @@ body.prevent-scroll {
   left: 0;
   height: 100vh;
   width: 100vw;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 99999;
-  animation: fadeIn 0.3s;
+}
+
+.omni-search.hidden > * {
+  display: none;
 }
 
 .omni-search > span.select2 {
@@ -59,7 +62,7 @@ body.prevent-scroll {
 .select2-results__option-container > span {
   margin: auto 5px auto 0;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .select2-container--default .select2-results__group {
@@ -92,27 +95,69 @@ body.prevent-scroll {
 .js-example-basic-multiple.loading + span.select2:before {
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
-  content: '\f1ce';
+  content: '\f021';
   position: absolute;
   right: 15px;
   top: 15px;
   font-size: 20px;
   margin: auto;
   z-index: 9;
-  animation: spin 1.2s infinite;
+  animation: spin 2s linear infinite;
+}
+
+.omni-search-panel:empty {
+  display: none;
+}
+
+.omni-search-panel {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: #fff;
+  right: 0;
+  bottom: 0;
+  width: 225px;
+  height: 50px;
+}
+
+.omni-search-panel > div:first-child {
+  flex: 2;
+}
+
+.omni-search-panel > div:first-child > button {
+  width: 100%;
+  background-color: #fff;
+  border: none;
+  border-bottom: 1px solid #999;
+  background-color: #111;
+  color: #fff !important;
+  font-size: 13px;
+}
+
+.omni-search-panel > div:first-child > button > span {
+  border-bottom: 1px solid #000;
+}
+
+.omni-search-panel > div:first-child > button > span > i {
+  margin-right: 5px;
+}
+
+.omni-search-panel > div {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.omni-search-panel > div > span {
+  font-size: 11px;
+  margin: auto 0;
+  color: #000;
 }
 
 @keyframes spin {
   100% {
     transform: rotate(360deg);
-  }
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
   }
 }
