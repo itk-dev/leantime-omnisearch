@@ -16,7 +16,7 @@ This plugin requires an instance of Leantime running locally.
 Git clone this repo into app/Plugins as follows:
 
 ```shell
-git clone https://github.com/ITK-Leantime/leantime-omnisearch app/Plugins/OmniSearch  
+git clone https://github.com/ITK-Leantime/leantime-omnisearch app/Plugins/OmniSearch
 ```
 
 Install the plugin through Leantime in your web browser.
