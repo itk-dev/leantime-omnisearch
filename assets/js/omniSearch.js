@@ -242,7 +242,7 @@ $(document).ready(function ($) {
           const $state = data.projectName
             ? $(
                 `<div class="select2-results__option-container">
-            ${data.text} (${data.projectName})
+            ${data.text} <span class="project-name">&nbsp;${data.projectName}</span>
             </div>`
               )
             : $(`<div class="select2-results__option-container">
