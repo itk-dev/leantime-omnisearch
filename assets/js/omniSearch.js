@@ -472,14 +472,7 @@ $(document).ready(function ($) {
   }
 
   function matcher(params, data) {
-    const original = [
-      data.parentText,
-      data.text,
-      data.tags,
-      data.sprintName,
-      data.projectName,
-      data.client,
-    ]
+    const original = [data.parentText, data.text, data.tags, data.projectName]
       .join(' ')
       .toLowerCase();
     const term = params.term ? params.term.toLowerCase() : '';
