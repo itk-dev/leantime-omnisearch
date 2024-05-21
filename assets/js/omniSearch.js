@@ -357,7 +357,9 @@ $(document).ready(function ($) {
     } else {
       ticketPromise = getAllTickets().then((data) => {
         var result = data.result;
-        let tickets = result.filter((result) => result.type === 'task');
+        let tickets = result.filter(
+          (result) => result.type.toLowerCase() === 'task'
+        );
         const ticketGroup = {
           id: 'task',
           text: 'To-Do´s',
