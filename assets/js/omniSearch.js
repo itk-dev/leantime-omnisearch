@@ -240,12 +240,12 @@ $(document).ready(function ($) {
         templateResult: function (data, container) {
           // Setup custom options with icon and data values.
           const $state = data.projectName
-          ? $(
-              `<div class="select2-results__option-container">
+            ? $(
+                `<div class="select2-results__option-container">
             ${data.text} (${data.projectName})
             </div>`
-            )
-          : $(`<div class="select2-results__option-container">
+              )
+            : $(`<div class="select2-results__option-container">
             ${data.text}
             </div>`);
           if (data.tags) {
