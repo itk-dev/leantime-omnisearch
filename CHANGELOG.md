@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add projectname in parentheses to search result on todos/tickets
 - Expand filter results by tolowercase'ing, because the result from the leantime has type set to be either "Task" and "task". 
 - remove sprintname/client from searcher to simplify result
+- add tags to omnisearch
 
 ## [1.2.1] 2024-04-29
 

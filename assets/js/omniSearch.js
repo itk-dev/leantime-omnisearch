@@ -3,7 +3,6 @@ $(document).ready(function ($) {
     projects: parseFloat(omniSearch.settings.projectCacheExpiration),
     tickets: parseFloat(omniSearch.settings.ticketCacheExpiration),
   };
-  const userId = omniSearch.settings.userId;
   const key = {
     escape: 27,
     period: 190,
@@ -135,7 +134,7 @@ $(document).ready(function ($) {
         var selection = e.params.data;
         switch (selection.type) {
           case 'task':
-            var selectedText = "To-Do's // " + e.params.data.text + ' //';
+            var selectedText = 'Todos // ' + e.params.data.text + ' //';
             $(omniSelectElement)
               .next('.select2.select2-container')
               .attr('data-visible-selected', selectedText);
@@ -179,7 +178,7 @@ $(document).ready(function ($) {
   // Set up select content based on selected element.
   function reinitOmniSearchForType(type, data) {
     switch (type) {
-      case 'task': // ToDo.
+      case 'task': // ToDo. Also ticket.
         reinitOmniSearchWithData([
           {
             id: '',
@@ -227,6 +226,34 @@ $(document).ready(function ($) {
     }
   }
 
+  // Almost entirely stolen from:
+  // https://forums.select2.org/t/how-can-i-highlight-the-results-on-a-search/52/2
+  function markMatch(text, term) {
+    // Find where the match is
+    var match = text.toUpperCase().indexOf(term.toUpperCase());
+
+    var $result = $('<span></span>');
+    // If there is no match, move on
+    if (match < 0) {
+      return $result.text(text);
+    }
+
+    // Put in whatever text is before the match
+    $result.text(text.substring(0, match));
+
+    // Mark the match
+    var $match = $('<span class="select2-rendered__match"></span>');
+    $match.text(text.substring(match, match + term.length));
+
+    // Append the matching text
+    $result.append($match);
+
+    // Put in whatever is after the match
+    $result.append(text.substring(match + term.length));
+
+    return $result;
+  }
+
   // Set data and refresh select2.
   function reinitOmniSearchWithData(data) {
     if (!isVisible || data.length === 0) {
@@ -237,27 +264,49 @@ $(document).ready(function ($) {
       .empty()
       .select2({
         data: data,
-        templateResult: function (data, container) {
-          // Setup custom options with icon and data values.
-          const $state = data.projectName
-            ? $(
-                `<div class="select2-results__option-container">
-            ${data.text} <span class="project-name">&nbsp;${data.projectName}</span>
-            </div>`
-              )
-            : $(`<div class="select2-results__option-container">
-            ${data.text}
-            </div>`);
+        templateResult: function (data) {
+          const term = query.term || '';
+
+          // Tags to html, as they each need a separate span.
+          let tagshtml = $('<span></span>');
           if (data.tags) {
-            $(container).attr('data-tags', data.tags);
+            data.tags.split(',').forEach((tag) => {
+              tagshtml.append(
+                `<span class="select2-tag">${markMatch(tag, term).html()}</span>`
+              );
+            });
           }
-          if (data.type) {
-            $(container).attr('data-type', data.type);
-          }
-          if (data.client) {
-            $(container).attr('data-client', data.client);
-          }
-          return $state;
+
+          const $resultingHtml = data.projectName
+            ? $(
+              `
+              <div class="select2-results__option-container">
+                <div class="select2-flex-container">
+                  <div>${markMatch(data.text, term).html()}</div>
+                  <div>
+                      <div class="select2-project-name">&nbsp;${markMatch(data.projectName, term).html()}</div>
+                  </div>
+                </div>
+                 <div>${tagshtml.html()}</div>
+              </div>
+              `
+              )
+              : $(`
+              <div class="select2-results__option-container">
+                 <div>${markMatch(data.text, term).html()}</div>
+              </div>
+              `);
+
+          return $resultingHtml;
+        },
+        language: {
+          searching: function (params) {
+            // Intercept the query as it is happening
+            query = params;
+
+            // Change this to be appropriate for your application
+            return 'Searching…';
+          },
         },
         matcher: matcher,
       })
@@ -362,7 +411,7 @@ $(document).ready(function ($) {
         );
         const ticketGroup = {
           id: 'task',
-          text: 'To-Do´s',
+          text: 'Todos',
           children: [],
           index: 2,
         };
