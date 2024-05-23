@@ -59,10 +59,19 @@ body.prevent-scroll {
   display: flex;
 }
 
+.select2-results__options--nested {
+  color: black;
+  font-weight: 800;
+}
+
 .select2-results__option-container > span {
   margin: auto 5px auto 0;
   font-weight: bold;
   font-size: 14px;
+}
+.project-name {
+  font-weight: 200 !important;
+  color: #414a4c;
 }
 
 .select2-container--default .select2-results__group {

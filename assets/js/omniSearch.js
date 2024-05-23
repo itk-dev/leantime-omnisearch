@@ -239,11 +239,15 @@ $(document).ready(function ($) {
         data: data,
         templateResult: function (data, container) {
           // Setup custom options with icon and data values.
-          var $state = $(
-            '<div class="select2-results__option-container">' +
-              data.text +
-              '</div>'
-          );
+          const $state = data.projectName
+            ? $(
+                `<div class="select2-results__option-container">
+            ${data.text} <span class="project-name">&nbsp;${data.projectName}</span>
+            </div>`
+              )
+            : $(`<div class="select2-results__option-container">
+            ${data.text}
+            </div>`);
           if (data.tags) {
             $(container).attr('data-tags', data.tags);
           }
@@ -353,7 +357,9 @@ $(document).ready(function ($) {
     } else {
       ticketPromise = getAllTickets().then((data) => {
         var result = data.result;
-        let tickets = result.filter((result) => result.type === 'task');
+        let tickets = result.filter(
+          (result) => result.type.toLowerCase() === 'task'
+        );
         const ticketGroup = {
           id: 'task',
           text: 'To-Do´s',
@@ -466,14 +472,7 @@ $(document).ready(function ($) {
   }
 
   function matcher(params, data) {
-    const original = [
-      data.parentText,
-      data.text,
-      data.tags,
-      data.sprintName,
-      data.projectName,
-      data.client,
-    ]
+    const original = [data.parentText, data.text, data.tags, data.projectName]
       .join(' ')
       .toLowerCase();
     const term = params.term ? params.term.toLowerCase() : '';
