@@ -279,7 +279,7 @@ $(document).ready(function ($) {
 
           const $resultingHtml = data.projectName
             ? $(
-              `
+                `
               <div class="select2-results__option-container">
                 <div class="select2-flex-container">
                   <div>${markMatch(data.text, term).html()}</div>
@@ -291,7 +291,7 @@ $(document).ready(function ($) {
               </div>
               `
               )
-              : $(`
+            : $(`
               <div class="select2-results__option-container">
                  <div>${markMatch(data.text, term).html()}</div>
               </div>
