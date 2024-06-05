@@ -572,7 +572,6 @@ $(document).ready(function ($) {
   }
 
   function getCacheData(item) {
-    return false;
     const cacheData = readFromCache(item);
 
     if (!cacheData) {
