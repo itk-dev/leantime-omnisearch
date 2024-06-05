@@ -266,7 +266,6 @@ $(document).ready(function ($) {
         data: data,
         templateResult: function (data) {
           const term = query.term || '';
-
           // Tags to html, as they each need a separate span.
           let tagshtml = $('<span></span>');
           if (data.tags) {
@@ -277,14 +276,18 @@ $(document).ready(function ($) {
             });
           }
 
+          const isTodoDoneStyling = data.isDone ? 'select2-is-done' : '';
+
           const $resultingHtml = data.projectName
             ? $(
                 `
-              <div class="select2-results__option-container">
+              <div class="select2-results__option-container ${isTodoDoneStyling}">
                 <div class="select2-flex-container">
-                  <div>${markMatch(data.text, term).html()}</div>
-                  <div>
+                  <div class="select2-flex-container">
+                    <div class="select2-todo">${markMatch(data.text, term).html()}</div>
+                    <div>
                       <div class="select2-project-name">&nbsp;${markMatch(data.projectName, term).html()}</div>
+                    </div>
                   </div>
                 </div>
                  <div>${tagshtml.html()}</div>
@@ -293,7 +296,7 @@ $(document).ready(function ($) {
               )
             : $(`
               <div class="select2-results__option-container">
-                 <div>${markMatch(data.text, term).html()}</div>
+                 <div class="select2-todo">${markMatch(data.text, term).html()}</div>
               </div>
               `);
 
@@ -415,8 +418,13 @@ $(document).ready(function ($) {
           children: [],
           index: 2,
         };
+
+        let childrenForTicketGroup = [];
         tickets.forEach((ticket) => {
           let option = {
+            // status 0 is done, I found out through this commit message
+            // https://github.com/ITK-Leantime/leantime/commit/122a08ea0cc61c65aa57fd1d73f0948d46744055
+            isDone: ticket.status === 0,
             id: ticket.id,
             text: ticket.headline,
             type: ticket.type,
@@ -425,8 +433,14 @@ $(document).ready(function ($) {
             projectId: ticket.projectId,
             projectName: ticket.projectName,
           };
-          ticketGroup.children.push(option);
+          childrenForTicketGroup.push(option);
         });
+
+        // Sort, so the done tasks appear in the bottom of the search.
+        const sortedByDone = [...childrenForTicketGroup].sort(
+          (a, b) => Number(a.isDone) - Number(b.isDone)
+        );
+        ticketGroup.children = sortedByDone;
         writeToCache('tickets', {
           data: ticketGroup,
           expiration: Date.now(),
@@ -521,7 +535,13 @@ $(document).ready(function ($) {
   }
 
   function matcher(params, data) {
-    const original = [data.parentText, data.text, data.tags, data.projectName]
+    const original = [
+      data.parentText,
+      data.text,
+      data.tags,
+      data.projectName,
+      data.id,
+    ]
       .join(' ')
       .toLowerCase();
     const term = params.term ? params.term.toLowerCase() : '';
