@@ -62,7 +62,7 @@ body.prevent-scroll {
 
 .select2-dropdown {
   border-radius: 0;
-  border: none;
+  border: 1px solid black;
 }
 
 .select2-results__option--selectable {
@@ -72,6 +72,16 @@ body.prevent-scroll {
 
 .select2-results__option--selectable {
   color: black;
+}
+
+.select2-is-done .select2-todo {
+  color: #64748b;
+  text-decoration: line-through;
+}
+
+.select2-is-done .select2-tag {
+  color: #64748b;
+  font-size: 12px;
 }
 
 .select2-project-name {
@@ -112,12 +122,24 @@ body.prevent-scroll {
 
 .select2-container--default
   .select2-results__option--highlighted.select2-results__option--selectable
+  .select2-todo {
+  color: white;
+}
+
+.select2-container--default
+  .select2-results__option--highlighted.select2-results__option--selectable
+  .select2-is-done {
+  color: white;
+}
+
+.select2-container--default
+  .select2-results__option--highlighted.select2-results__option--selectable
   .select2-project-name {
   color: white;
 }
 
 .select2-tag {
-  border-radius: 2px;
+  border-radius: 4px;
   background-color: white;
   border: 1px solid #cbd5e1;
   padding: 3px 6px;
