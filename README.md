@@ -27,5 +27,5 @@ Run prettier via the following command:
 
 ```shell
     docker run -it --volume ${PWD}:/app --rm node:20 yarn --cwd /app install
-    docker run -it --volume ${PWD}:/app --rm node:20 yarn --cwd /app prettier assets --write
+    docker run -it --volume ${PWD}:/app --rm node:20 yarn --cwd /app prettier assets --fix --write
 ```
