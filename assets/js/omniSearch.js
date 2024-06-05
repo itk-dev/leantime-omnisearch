@@ -535,7 +535,7 @@ $(document).ready(function ($) {
   }
 
   function matcher(params, data) {
-    const original = [data.parentText, data.text, data.tags, data.projectName]
+    const original = [data.parentText, data.text, data.tags, data.projectName, data.id]
       .join(' ')
       .toLowerCase();
     const term = params.term ? params.term.toLowerCase() : '';
@@ -572,6 +572,7 @@ $(document).ready(function ($) {
   }
 
   function getCacheData(item) {
+    return false;
     const cacheData = readFromCache(item);
 
     if (!cacheData) {
