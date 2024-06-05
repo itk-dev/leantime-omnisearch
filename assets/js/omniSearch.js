@@ -535,7 +535,13 @@ $(document).ready(function ($) {
   }
 
   function matcher(params, data) {
-    const original = [data.parentText, data.text, data.tags, data.projectName, data.id]
+    const original = [
+      data.parentText,
+      data.text,
+      data.tags,
+      data.projectName,
+      data.id,
+    ]
       .join(' ')
       .toLowerCase();
     const term = params.term ? params.term.toLowerCase() : '';
