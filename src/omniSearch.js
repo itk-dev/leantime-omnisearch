@@ -1,3 +1,7 @@
+import 'select2';
+import 'select2/dist/css/select2.css';
+import './omniSearch.css';
+
 $(document).ready(function ($) {
   const cacheTimeouts = {
     projects: parseFloat(omniSearch.settings.projectCacheExpiration),
@@ -230,11 +234,11 @@ $(document).ready(function ($) {
   // https://forums.select2.org/t/how-can-i-highlight-the-results-on-a-search/52/2
   function markMatch(text, term) {
     // Find where the match is
-    var match = text.toUpperCase().indexOf(term.toUpperCase());
+    var match = text?.toUpperCase().indexOf(term?.toUpperCase());
 
     var $result = $('<span></span>');
     // If there is no match, move on
-    if (match < 0) {
+    if (!match || match < 0) {
       return $result.text(text);
     }
 
@@ -264,8 +268,8 @@ $(document).ready(function ($) {
       .empty()
       .select2({
         data: data,
-        templateResult: function (data) {
-          const term = query.term || '';
+        templateResult: function (data, query) {
+          const term = query?.term || '';
           // Tags to html, as they each need a separate span.
           let tagshtml = $('<span></span>');
           if (data.tags) {
@@ -301,15 +305,6 @@ $(document).ready(function ($) {
               `);
 
           return $resultingHtml;
-        },
-        language: {
-          searching: function (params) {
-            // Intercept the query as it is happening
-            query = params;
-
-            // Change this to be appropriate for your application
-            return 'Searching…';
-          },
         },
         matcher: matcher,
       })

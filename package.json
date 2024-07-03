@@ -5,6 +5,20 @@
   "repository": "https://github.com/itk-dev/leantime-omnisearch",
   "license": "MIT",
   "devDependencies": {
-    "prettier": "^3.2.4"
+    "prettier": "^3.2.4",
+    "webpack": "^5.92.1",
+    "webpack-cli": "^5.1.4",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.0",
+    "path": "^0.12.7",
+    "style-loader": "^4.0.0"
+},
+"dependencies": {
+    "jquery": "^3.7.1",
+    "select2": "^4.1.0-rc.0"
+  },
+  "scripts": {
+    "dev": "npx webpack --watch",
+    "build": "npx webpack"
   }
 }
