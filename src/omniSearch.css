@@ -102,6 +102,11 @@ body.prevent-scroll {
   color: black;
 }
 
+.select2-results__group .select2-rendered__match {
+  color: #3b444b;
+  font-weight: 300;
+}
+
 .select2-container--default .select2-results > .select2-results__options {
   max-height: 800px;
   margin: 20px;

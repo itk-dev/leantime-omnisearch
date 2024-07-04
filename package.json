@@ -13,11 +13,13 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "fuzzy-search": "^3.2.1",
     "jquery": "^3.7.1",
     "select2": "^4.1.0-rc.0"
   },
   "scripts": {
     "dev": "npx webpack --watch",
-    "build": "npx webpack"
+    "build": "npx webpack",
+    "coding-standards-apply": "prettier src --fix --write"
   }
 }
