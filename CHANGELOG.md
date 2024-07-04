@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Change folder structure
   - Setup yarn audit on pr
   - Update readme
+  - Only show todo/project when user has typed 3 characters
 
 ## [1.2.3] 2024-06-05
 - Make it possible to search on todo id
