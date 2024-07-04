@@ -271,7 +271,6 @@ $(document).ready(function ($) {
         data: data,
         templateResult: function (data) {
           const term = jQuery('.select2-search__field').val() || '';
-          console.log(data.type?.toLowerCase());
           if (
             // This magic number decides how many characters a user has to type to see data. Now, 3.
             term.length >= 3 ||
