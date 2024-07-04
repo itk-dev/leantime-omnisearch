@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -o errexit -o errtrace -o noclobber -o nounset -o pipefail
+IFS=$'\n\t'
+
+script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+project_dir=$(cd "$(dirname "$script_dir")" && pwd)
+
+tag=${1:-}
+if [ -z "$tag" ]; then
+  (>&2 echo "Usage: $0 tag")
+  exit
+fi
+
+cd "$project_dir"
+
+plugin_name=DataExport
+
+release_files=(
+  CHANGELOG.md
+  Controllers/
+  README.md
+  Services/
+  package.json
+  index.php
+  register.php
+  node_modules/
+)
+
+
+name="leantime-plugin-${plugin_name}-${tag}.tar.gz"
+
+git config --global --add safe.directory "$PWD"
+if ! git diff --exit-code package.json; then
+  (>&2 echo; echo package.json is changed. Aborting.)
+  exit 1
+fi
+
+# Make sure that `package.json` has the correct version.
+yarn version --new-version" ${tag}"
+yarn --no-dev
+
+release_dir=release
+target_dir="$release_dir/$plugin_name"
+mkdir -p "$target_dir"
+
+for f in "${release_files[@]}"; do
+  cp --archive --parents "$f" $target_dir
+done
+
+# Replace %%VERSION%% with actual version in build
+find $target_dir -type f -print0 | xargs -0 sed -i "s/%%VERSION%%/${tag}/g"
+
+tar --create --file "$name" -C "$release_dir" $plugin_name
+sha256sum "$name" >| checksum.txt
+
+# Clean up
+rm -fr $release_dir
+
+git checkout package.json
+
+echo
+echo "Release content ($name)"
+echo
+tar tvf "$name" | grep -v '/$'
+echo
