@@ -1,11 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const devMode = process.env.NODE_ENV !== "production";
+
 module.exports = {
   entry: [ './src/omniSearch.js'],
   output: {
     // below path is assuming this plugin is installed in the leantime subfolder "plugins"
-    path: path.resolve(__dirname, './../../../public/dist/js'),
+    path: devMode ? path.resolve(__dirname, './../../../public/dist/js') : path.resolve(__dirname, './dist/js') ,
     filename: 'omniSearch.js',
   },
   plugins: [
@@ -22,5 +24,5 @@ module.exports = {
       },
     ],
   },
-  mode: 'production',
+  mode: process.env.NODE_ENV,
 };
