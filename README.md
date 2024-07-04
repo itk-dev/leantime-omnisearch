@@ -29,7 +29,7 @@ Run this to update files
 
 ```
 yarn
-yarn run dev
+yarn dev
 ```
 
 ### Coding standards
