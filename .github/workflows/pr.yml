@@ -51,4 +51,4 @@ jobs:
 
       - name: Create test release
         run: |
-          ./bin/create-release dev-test
+          ./bin/create-release 0.0.0
