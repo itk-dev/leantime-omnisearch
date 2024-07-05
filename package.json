@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "0.0.0",
+  "version": "1.2.3",
   "main": "index.js",
   "repository": "https://github.com/itk-dev/leantime-omnisearch",
   "license": "MIT",
