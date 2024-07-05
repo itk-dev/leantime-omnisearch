@@ -39,3 +39,16 @@ jobs:
 
       - name: yarn audit
         run: yarn audit
+
+  check-build-release:
+    runs-on: ubuntu-latest
+    name: Test create release
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create test release
+        run: |
+          ./bin/create-release dev-test

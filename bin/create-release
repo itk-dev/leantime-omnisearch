@@ -13,12 +13,13 @@ fi
 
 cd "$project_dir"
 
-plugin_name=DataExport
+plugin_name=OmniSearch
 
 release_files=(
   CHANGELOG.md
   Controllers/
   README.md
+  dist/
   Services/
   package.json
   index.php
@@ -36,8 +37,9 @@ if ! git diff --exit-code package.json; then
 fi
 
 # Make sure that `package.json` has the correct version.
-yarn version --new-version" ${tag}"
-yarn --no-dev
+yarn install --no-dev
+yarn build
+yarn version --new-version "${tag}"
 
 release_dir=release
 target_dir="$release_dir/$plugin_name"

@@ -1,2 +1,6 @@
 node_modules
 dist
+
+# Release
+leantime-plugin-*.tar.gz
+checksum.txt
