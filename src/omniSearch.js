@@ -1,3 +1,8 @@
+import 'select2';
+import 'select2/dist/css/select2.css';
+import './omniSearch.css';
+import FuzzySearch from 'fuzzy-search';
+
 $(document).ready(function ($) {
   const cacheTimeouts = {
     projects: parseFloat(omniSearch.settings.projectCacheExpiration),
@@ -77,6 +82,8 @@ $(document).ready(function ($) {
         })
         .on('select2:select', function (e) {
           const data = e.params.data;
+          const action = e.params.data.action;
+          const id = e.params.data.id;
           $('.select2-search__field').val(data.text);
           switch (data.type) {
             case 'project':
@@ -90,39 +97,37 @@ $(document).ready(function ($) {
               break;
 
             case 'taskAction':
-              var ticketId = e.params.data.id;
-              action = e.params.data.action;
               switch (action) {
                 case 'goto':
-                  path = '?tab=ticketdetails#/tickets/showTicket/' + ticketId;
-                  window.location.href = path;
+                  const gotoTaskPath =
+                    '?tab=ticketdetails#/tickets/showTicket/' + id;
+                  window.location.href = gotoTaskPath;
                   destroyOmniSearch();
                   break;
 
                 case 'logtime':
-                  path = '?tab=timesheet#/tickets/showTicket/' + ticketId;
-                  window.location.href = path;
+                  const logTimeTodoPath =
+                    '?tab=timesheet#/tickets/showTicket/' + id;
+                  window.location.href = logTimeTodoPath;
                   destroyOmniSearch();
                   break;
               }
               break;
-
             case 'projectAction':
-              var projectId = e.params.data.id;
-              action = e.params.data.action;
               switch (action) {
                 case 'goto':
-                  path = '/projects/changeCurrentProject/' + projectId;
-                  window.location.href = path;
+                  const gotoProjectPath =
+                    '/projects/changeCurrentProject/' + id;
+                  window.location.href = gotoProjectPath;
                   destroyOmniSearch();
                   break;
 
                 case 'createnew':
-                  path =
+                  const createNewProjectPath =
                     '/projects/changeCurrentProject/' +
-                    projectId +
+                    id +
                     '#/tickets/newTicket';
-                  window.location.href = path;
+                  window.location.href = createNewProjectPath;
                   destroyOmniSearch();
                   break;
               }
@@ -132,31 +137,24 @@ $(document).ready(function ($) {
       setOmnisearchData();
       omniSelectElement.on('select2:select', function (e) {
         var selection = e.params.data;
+        const { text } = e.params.data;
         switch (selection.type) {
           case 'task':
-            var selectedText = 'Todos // ' + e.params.data.text + ' //';
             $(omniSelectElement)
               .next('.select2.select2-container')
-              .attr('data-visible-selected', selectedText);
+              .attr('data-visible-selected', `Todos / ${text} /`);
             break;
 
           case 'project':
-            var selectedText = 'Projects // ' + e.params.data.text + ' //';
             $(omniSelectElement)
               .next('.select2.select2-container')
-              .attr('data-visible-selected', selectedText);
+              .attr('data-visible-selected', `Projects / ${text} /`);
             break;
         }
-        /*
-      Inserts the selected value into the searchfield
-         and adds left padding to the input field
-        */
-        var searchBox = document.querySelector('.select2.select2-container');
-        var computedWidth = window.getComputedStyle(searchBox, ':after').width;
-        $('.select2-search__field').css('padding-left', computedWidth);
-        var elm = e.params.data.element;
-        $element = $(elm);
-        $this = $(this);
+
+        const elm = e.params.data.element;
+        const $element = $(elm);
+        const $this = $(this);
         $this.append($element);
         $this.trigger('change.select2');
       });
@@ -178,7 +176,7 @@ $(document).ready(function ($) {
   // Set up select content based on selected element.
   function reinitOmniSearchForType(type, data) {
     switch (type) {
-      case 'task': // ToDo. Also ticket.
+      case 'task':
         reinitOmniSearchWithData([
           {
             id: '',
@@ -187,13 +185,13 @@ $(document).ready(function ($) {
               {
                 id: data.id,
                 text: 'Open',
-                type: 'taskAction',
+                type: 'taskAction' || 'projectAction',
                 action: 'goto',
               },
               {
                 id: data.id,
                 text: 'Log Time',
-                type: 'taskAction',
+                type: 'taskAction' || 'projectAction',
                 action: 'logtime',
               },
             ],
@@ -201,7 +199,7 @@ $(document).ready(function ($) {
         ]);
         break;
 
-      case 'project': // Project.
+      case 'project':
         reinitOmniSearchWithData([
           {
             id: '',
@@ -230,9 +228,9 @@ $(document).ready(function ($) {
   // https://forums.select2.org/t/how-can-i-highlight-the-results-on-a-search/52/2
   function markMatch(text, term) {
     // Find where the match is
-    var match = text.toUpperCase().indexOf(term.toUpperCase());
+    const match = text?.toUpperCase().indexOf(term?.toUpperCase());
 
-    var $result = $('<span></span>');
+    let $result = $('<span></span>');
     // If there is no match, move on
     if (match < 0) {
       return $result.text(text);
@@ -242,7 +240,7 @@ $(document).ready(function ($) {
     $result.text(text.substring(0, match));
 
     // Mark the match
-    var $match = $('<span class="select2-rendered__match"></span>');
+    let $match = $('<span class="select2-rendered__match"></span>');
     $match.text(text.substring(match, match + term.length));
 
     // Append the matching text
@@ -252,6 +250,13 @@ $(document).ready(function ($) {
     $result.append(text.substring(match + term.length));
 
     return $result;
+  }
+
+  function isAction(data) {
+    return (
+      data.type?.toLowerCase() === 'taskaction' ||
+      data.type?.toLowerCase() === 'projectaction'
+    );
   }
 
   // Set data and refresh select2.
@@ -265,51 +270,48 @@ $(document).ready(function ($) {
       .select2({
         data: data,
         templateResult: function (data) {
-          const term = query.term || '';
-          // Tags to html, as they each need a separate span.
-          let tagshtml = $('<span></span>');
-          if (data.tags) {
-            data.tags.split(',').forEach((tag) => {
-              tagshtml.append(
-                `<span class="select2-tag">${markMatch(tag, term).html()}</span>`
-              );
-            });
-          }
+          const term = jQuery('.select2-search__field').val() || '';
+          if (
+            // This magic number decides how many characters a user has to type to see data. Now, 3.
+            term.length >= 3 ||
+            isAction(data)
+          ) {
+            // Tags to html, as they each need a separate span.
+            let tagshtml = $('<span></span>');
+            if (data.tags) {
+              data.tags.split(',').forEach((tag) => {
+                tagshtml.append(
+                  `<span class="select2-tag">${markMatch(tag, term).html()}</span>`
+                );
+              });
+            }
 
-          const isTodoDoneStyling = data.isDone ? 'select2-is-done' : '';
+            const isTodoDoneStyling = data.isDone ? 'select2-is-done' : '';
 
-          const $resultingHtml = data.projectName
-            ? $(
-                `
-              <div class="select2-results__option-container ${isTodoDoneStyling}">
-                <div class="select2-flex-container">
-                  <div class="select2-flex-container">
-                    <div class="select2-todo">${markMatch(data.text, term).html()}</div>
-                    <div>
-                      <div class="select2-project-name">&nbsp;${markMatch(data.projectName, term).html()}</div>
+            const $resultingHtml = data.projectName
+              ? $(
+                  `
+                  <div class="select2-results__option-container ${isTodoDoneStyling}">
+                    <div class="select2-flex-container">
+                      <div class="select2-flex-container">
+                        <div class="select2-todo">${markMatch(data.text, term).html()}</div>
+                        <div>
+                          <div class="select2-project-name">&nbsp;${markMatch(data.projectName, term).html()}</div>
+                        </div>
+                      </div>
                     </div>
+                    <div>${tagshtml.html()}</div>
                   </div>
-                </div>
-                 <div>${tagshtml.html()}</div>
-              </div>
-              `
-              )
-            : $(`
-              <div class="select2-results__option-container">
-                 <div class="select2-todo">${markMatch(data.text, term).html()}</div>
-              </div>
-              `);
+                  `
+                )
+              : $(`
+                  <div class="select2-results__option-container">
+                    <div class="select2-todo">${markMatch(data.text, term).html()}</div>
+                  </div>
+                  `);
 
-          return $resultingHtml;
-        },
-        language: {
-          searching: function (params) {
-            // Intercept the query as it is happening
-            query = params;
-
-            // Change this to be appropriate for your application
-            return 'Searching…';
-          },
+            return $resultingHtml;
+          }
         },
         matcher: matcher,
       })
@@ -324,7 +326,7 @@ $(document).ready(function ($) {
         $('.select2.select2-container').attr('data-visible-selected') &&
         $('.select2.select2-container').attr('data-visible-selected').length >
           0 &&
-        searchFieldInputLength == 0;
+        searchFieldInputLength === 0;
       switch (e.keyCode) {
         case key.backspace:
           if (hasSelection) {
@@ -535,34 +537,20 @@ $(document).ready(function ($) {
   }
 
   function matcher(params, data) {
-    const original = [
-      data.parentText,
-      data.text,
-      data.tags,
-      data.projectName,
-      data.id,
-    ]
-      .join(' ')
-      .toLowerCase();
     const term = params.term ? params.term.toLowerCase() : '';
-
-    if (!term.trim() || fuzzySearch(term, original)) {
-      return data;
-    }
-
-    if (data.children && data.children.length > 0) {
-      const matchedChildren = data.children
-        .map((child) => matcher(params, child))
-        .filter(Boolean);
-      if (matchedChildren.length > 0) {
-        return {
-          ...data,
-          children: matchedChildren,
-        };
+    const searcher = new FuzzySearch(
+      data.children,
+      ['id', 'parentText', 'text', 'tags', 'projectName'],
+      {
+        caseSensitive: false,
       }
-    }
+    );
+    const result = searcher.search(term);
 
-    return null;
+    return {
+      ...data,
+      children: result,
+    };
   }
 
   function removeFromCache(item) {

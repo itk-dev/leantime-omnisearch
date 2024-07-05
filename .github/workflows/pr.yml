@@ -28,4 +28,14 @@ jobs:
       - name: Coding standards
         run: |
           docker run --volume ${PWD}:/app --rm node:20 yarn --cwd /app install
-          docker run --volume ${PWD}:/app --rm node:20 yarn --cwd /app prettier assets --check
+          docker run --volume ${PWD}:/app --rm node:20 yarn --cwd /app prettier src --check
+
+  audit:
+    name: yarn audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: yarn audit
+        run: yarn audit

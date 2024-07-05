@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+* [PR-20](https://github.com/ITK-Leantime/leantime-omnisearch/pull/20)
+  - Build with webpack
+  - Use npm package fuzzy-search (https://www.npmjs.com/package/fuzzy-search)
+  - Change folder structure
+  - Setup yarn audit on pr
+  - Update readme
+  - Only show todo/project when user has typed 3 characters
+
 ## [1.2.3] 2024-06-05
 - Make it possible to search on todo id
 - Make done todos visually stand out, and sort the array so they appear at the bottom
