@@ -38,8 +38,7 @@ fi
 npm install --no-dev
 npm run build
 # Build release end
-# Make sure that `package.json` has the correct version.
-npm config set version "${tag}"
+
 
 # Package release
 release_dir=release
