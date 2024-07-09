@@ -28,8 +28,8 @@ dist/omniSearch.js
 Run this to update files
 
 ```
-docker compose run --rm php npm install
-docker compose run --rm php npm run dev
+npm install
+npm run dev
 ```
 
 ### Coding standards
@@ -37,6 +37,5 @@ docker compose run --rm php npm run dev
 Run prettier via the following command:
 
 ```shell
-    docker compose run --rm php npm --prefix /app install
-    docker compose run --rm php npm --prefix /app prettier src --fix --write
+    npm run coding-standards-apply
 ```
