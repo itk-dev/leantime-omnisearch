@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Add pre-release.yml and release.yml to github workflows
   - Add dockerfile + install of rsync and node
   - Add dev/prod mode to webpack
+  - Update version in package to reflect latest tag
 
 
 * [PR-20](https://github.com/ITK-Leantime/leantime-omnisearch/pull/20)
