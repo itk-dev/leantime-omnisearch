@@ -37,6 +37,6 @@ npm run dev
 Run prettier via the following command:
 
 ```shell
-    docker run -it --volume ${PWD}:/app --rm node:20 npm --prefix /app install
-    docker run -it --volume ${PWD}:/app --rm node:20 npm --prefix /app prettier src --fix --write
+    docker compose run --rm php npm --prefix /app install
+    docker compose run --rm php npm --prefix /app prettier src --fix --write
 ```
