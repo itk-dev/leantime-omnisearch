@@ -10,5 +10,5 @@ RUN apt-get -y install curl gnupg
 RUN curl -sL https://deb.nodesource.com/setup_20.x  | bash -
 RUN apt-get -y install nodejs
 
-# Cf. `docker image inspect --format '{{.Config.User}}' itkdev/php8.1-fpm:latest`
+# Cf. `docker image inspect --format '{{.Config.User}}' itkdev/php8.3-fpm:latest`
 USER deploy
