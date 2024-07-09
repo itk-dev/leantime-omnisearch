@@ -1,6 +1,8 @@
 node_modules
+.DS_Store
 dist
 
 # Release
-leantime-plugin-*.tar.gz
+OmniSearch-*.tar.gz
 checksum.txt
+

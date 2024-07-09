@@ -1,0 +1,10 @@
+CHANGELOG.md
+Controllers/
+README.md
+dist/
+Services/
+package.json
+index.php
+register.php
+node_modules/
+OmniSearch-0.0.0..tar.gz

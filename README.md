@@ -28,8 +28,8 @@ dist/omniSearch.js
 Run this to update files
 
 ```
-yarn
-yarn dev
+npm install
+npm run dev
 ```
 
 ### Coding standards
@@ -37,6 +37,6 @@ yarn dev
 Run prettier via the following command:
 
 ```shell
-    docker run -it --volume ${PWD}:/app --rm node:20 yarn --cwd /app install
-    docker run -it --volume ${PWD}:/app --rm node:20 yarn --cwd /app prettier src --fix --write
+    docker run -it --volume ${PWD}:/app --rm node:20 npm --prefix /app install
+    docker run -it --volume ${PWD}:/app --rm node:20 npm --prefix /app prettier src --fix --write
 ```
