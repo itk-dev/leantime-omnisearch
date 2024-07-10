@@ -4,7 +4,12 @@ A plugin for Leantime that gives access to a plethora of shortcuts, to speed up
 navigating the system.
 
 ## Build
-Todo: This will be in a following pr
+
+Build a test release: 
+
+```shell
+    docker compose build && docker compose run --rm php ./bin/create-release dev-test
+```
 
 ## Development
 
@@ -37,5 +42,7 @@ npm run dev
 Run prettier via the following command:
 
 ```shell
-    npm run coding-standards-apply
+    docker compose build
+    docker compose run --rm php npm install
+    docker compose run --rm php npm run coding-standards-apply
 ```
