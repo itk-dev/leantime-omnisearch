@@ -7,7 +7,7 @@ module.exports = {
   entry: [ './src/omniSearch.js'],
   output: {
     // below path is assuming this plugin is installed in the leantime subfolder "plugins"
-    path: devMode ? path.resolve(__dirname, './../../../public/dist/js') : path.resolve(__dirname, './dist/js') ,
+    path: devMode ? path.resolve(__dirname, './../../../public/dist/js/') : path.resolve(__dirname, './dist/js/') ,
     filename: 'omniSearch.js',
   },
   plugins: [
@@ -24,5 +24,5 @@ module.exports = {
       },
     ],
   },
-  mode: process.env.NODE_ENV,
+  mode: "production",
 };
