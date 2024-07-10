@@ -20,8 +20,8 @@ plugin_name=OmniSearch
 # Configuration end
 
 git config --global --add safe.directory "$PWD"
-if ! git diff --exit-code composer.json; then
-  (>&2 echo; echo composer.json is changed. Aborting.)
+if ! git diff --exit-code package.json; then
+  (>&2 echo; echo package.json is changed. Aborting.)
   exit 1
 fi
 
