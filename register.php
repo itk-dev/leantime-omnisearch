@@ -12,9 +12,7 @@ Events::add_event_listener(
             $ticketCacheExpiration = app()->make(SettingsService::class)->getSetting("omnisearchsettings.ticketscache") ?: '1200';
             $userId = $_SESSION['userdata']['id'];
             echo '<script>const omniSearch = '.json_encode(["settings" => ["userId" => $userId, "projectCacheExpiration" => $projectCacheExpiration, "ticketCacheExpiration" => $ticketCacheExpiration]]).'</script>';
-            $url = '/dist/js/omniSearch.js?' . http_build_query(['v' => '%%VERSION%%']);
-            echo '<script type="text/javascript" src="' . htmlspecialchars($url) . '"></script>';
-            // echo '<script type="text/javascript" src="/dist/js/omniSearch.js"></script>';
+            echo '<script src="/dist/js/omniSearch.%%VERSION%%.js"></script>';
         }
     },
     5
