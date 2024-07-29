@@ -13,6 +13,8 @@ fi
 
 cd "$project_dir"
 
+# Configuration start
+
 plugin_name=OmniSearch
 
 # Edit release-exclude.txt to exclude files and folder from release package.
@@ -39,7 +41,6 @@ npm install --no-dev
 npm run build
 # Build release end
 
-
 # Package release
 release_dir=release
 target_dir="$release_dir/$plugin_name"
@@ -48,7 +49,7 @@ mkdir -p "$target_dir"
 rsync --verbose --archive --compress --filter=':- .gitignore' --exclude-from "$script_dir/release-exclude.txt" . "$target_dir"
 
 # Replace %%VERSION%% with actual version in build
-find $target_dir -type f -print0 | xargs -0 sed -i "s/%%VERSION%%/${tag}/g"
+find ${target_dir} -type f -exec sed -i "s/%%VERSION%%/${tag}/g" {} \;
 
 # Strip any leading `dev-` from tag name in package name.
 name="${plugin_name}-${tag#dev-}.tar.gz"

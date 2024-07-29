@@ -14,4 +14,4 @@ src
 .prettierrc
 Dockerfile
 webpack.config.js
-OmniSearch
+OmniSearch-*.tar.gz
