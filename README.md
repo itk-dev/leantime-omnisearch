@@ -3,19 +3,16 @@
 A plugin for Leantime that gives access to a plethora of shortcuts, to speed up 
 navigating the system.
 
-## Build
 
-Build a test release: 
+### Test release build
 
-```shell
-    docker compose build && docker compose run --rm php ./bin/create-release dev-test
+``` shell
+docker compose build && docker compose run --rm php bash bin/create-release dev-test
 ```
 
 ## Development
 
 This plugin requires an instance of Leantime running locally.
-
-
 
 Git clone this repo into app/Plugins as follows:
 
@@ -33,8 +30,8 @@ dist/omniSearch.js
 Run this to update files
 
 ```
-npm install
-npm run dev
+    docker compose run --rm php npm install
+    docker compose run --rm php npm run dev
 ```
 
 ### Coding standards
