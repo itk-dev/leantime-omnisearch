@@ -2,8 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const TerserPlugin = require("terser-webpack-plugin");
 
-const devMode = process.env.NODE_ENV !== "production";
-
 module.exports = {
   optimization: {
     minimize: true,
@@ -20,8 +18,7 @@ module.exports = {
   },
   entry: [ './src/omniSearch.js'],
   output: {
-    // below path is assuming this plugin is installed in the leantime subfolder "plugins"
-    path: devMode ? path.resolve(__dirname, './../../../public/dist/js/') : path.resolve(__dirname, './dist/js/') ,
+    path: path.resolve(__dirname, './dist/js/'),
     filename: 'omniSearch.js',
   },
   plugins: [
