@@ -3,7 +3,7 @@ FROM itkdev/php8.3-fpm:latest
 USER root
 
 # Add rsync
-RUN apt-get update && apt-get --yes install rsync && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update && apt-get --yes install rsync
 
 # Add node
 RUN apt-get --yes install curl gnupg
