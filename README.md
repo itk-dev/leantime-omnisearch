@@ -30,8 +30,8 @@ dist/omniSearch.js
 Run this to update files
 
 ```
-    docker compose run --rm php npm install
-    docker compose run --rm php npm run dev
+docker compose run --rm php npm install
+docker compose run --rm php npm run dev
 ```
 
 ### Coding standards
