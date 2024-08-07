@@ -3,14 +3,16 @@
 A plugin for Leantime that gives access to a plethora of shortcuts, to speed up 
 navigating the system.
 
-## Build
-Todo: This will be in a following pr
+
+### Test release build
+
+``` shell
+docker compose build && docker compose run --rm php bash bin/create-release dev-test
+```
 
 ## Development
 
 This plugin requires an instance of Leantime running locally.
-
-
 
 Git clone this repo into app/Plugins as follows:
 
@@ -28,8 +30,8 @@ dist/omniSearch.js
 Run this to update files
 
 ```
-yarn
-yarn dev
+docker compose run --rm php npm install
+docker compose run --rm php npm run dev
 ```
 
 ### Coding standards
@@ -37,6 +39,7 @@ yarn dev
 Run prettier via the following command:
 
 ```shell
-    docker run -it --volume ${PWD}:/app --rm node:20 yarn --cwd /app install
-    docker run -it --volume ${PWD}:/app --rm node:20 yarn --cwd /app prettier src --fix --write
+    docker compose build
+    docker compose run --rm php npm install
+    docker compose run --rm php npm run coding-standards-apply
 ```

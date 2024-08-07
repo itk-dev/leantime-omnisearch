@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+* [PR-22](https://github.com/ITK-Leantime/leantime-omnisearch/pull/22)
+  - Change yarn to npm
+  - Add build script
+  - Add check-create-release to pr.yml
+  - Add pre-release.yml and release.yml to github workflows
+  - Add dockerfile + install of rsync and node
+  - Add dev/prod mode to webpack
+  - Update version in package to reflect latest tag
+
+
 * [PR-20](https://github.com/ITK-Leantime/leantime-omnisearch/pull/20)
   - Build with webpack
   - Use npm package fuzzy-search (https://www.npmjs.com/package/fuzzy-search)

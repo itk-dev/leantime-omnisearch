@@ -8,7 +8,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Coding standards
         run: |
@@ -31,11 +31,26 @@ jobs:
           docker run --volume ${PWD}:/app --rm node:20 yarn --cwd /app prettier src --check
 
   audit:
-    name: yarn audit
+    name: audit
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: yarn audit
-        run: yarn audit
+      - name: npm audit
+        run: |
+          npm install
+          npm audit
+
+  check-create-release:
+    runs-on: ubuntu-latest
+    name: Test create release
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create test release
+        run: |
+          ./bin/create-release dev-test

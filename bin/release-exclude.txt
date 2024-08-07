@@ -1,0 +1,17 @@
+*.tar.gz
+.DS_Store
+.editorconfig
+.git*
+bin
+checksum.txt
+compose.yaml
+composer.lock
+package-lock.json
+node_modules
+package.json
+src
+.prettierignore
+.prettierrc
+Dockerfile
+webpack.config.js
+OmniSearch-*.tar.gz
