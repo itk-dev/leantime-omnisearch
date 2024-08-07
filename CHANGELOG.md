@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+* [PR-23](https://github.com/ITK-Leantime/leantime-omnisearch/pull/23)
+  * Markdown linter added
+
 * [PR-22](https://github.com/ITK-Leantime/leantime-omnisearch/pull/22)
   * Change yarn to npm
   * Add build script
