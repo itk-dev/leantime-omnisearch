@@ -47,3 +47,10 @@ docker compose run --rm php npm run coding-standards-apply
 docker run --rm --volume "$(pwd):/md" peterdavehello/markdownlint markdownlint --ignore LICENSE.md --ignore vendor/ --ignore node_modules/ '**/*.md' --fix
 docker run --rm --volume "$(pwd):/md" peterdavehello/markdownlint markdownlint --ignore LICENSE.md --ignore vendor/ --ignore node_modules/ '**/*.md'
 ```
+
+```shell name=coding-standards-php
+docker compose build
+docker compose run --rm php composer install
+docker compose run --rm php composer coding-standards-apply
+docker compose run --rm php composer coding-standards-check
+```

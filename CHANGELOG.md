@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* [PR-12](https://github.com/ITK-Leantime/leantime-omnisearch/pull/12)
+  Fixed settins controller file name. Cleaned up.
 * [PR-23](https://github.com/ITK-Leantime/leantime-omnisearch/pull/23)
   * Markdown linter added
 

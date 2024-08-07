@@ -18,22 +18,22 @@ class Settings extends Controller
 {
     private SettingRepository $settingsRepo;
 
-  /**
-   * constructor
-   * @access public
-   *
-   * @return void
-   */
+    /**
+     * constructor
+     * @access public
+     *
+     * @return void
+     */
     public function init(SettingRepository $settingsRepo): void
     {
         $this->settingsRepo = $settingsRepo;
     }
 
-  /**
-   * get method
-   *
-   * @return Response
-   */
+    /**
+     * get method
+     *
+     * @return Response
+     */
     public function get(): Response
     {
         $projectCacheExpiration = (int) ($this->settingsRepo->getSetting('omnisearchsettings.projectscache') ?: 2400);
@@ -45,11 +45,11 @@ class Settings extends Controller
         return $this->tpl->display('omniSearch.settings');
     }
 
-  /**
-   * post method
-   * @param array $params
-   * @return Response
-   */
+    /**
+     * post method
+     * @param array $params
+     * @return Response
+     */
     public function post(array $params): RedirectResponse
     {
         $this->settingsRepo->saveSetting('omnisearchsettings.projectscache', (int) ($params['projectCacheExpiration'] ?? 0));

@@ -8,15 +8,15 @@ namespace Leantime\Plugins\OmniSearch\Services;
 class OmniSearch
 {
     private static $assets = [
-    // source => target
-    __DIR__. '/../dist/js/omniSearch.js' => APP_ROOT . '/public/dist/js/omniSearch.v%%VERSION%%.js',
-  ];
+        // source => target
+        __DIR__ . '/../dist/js/omniSearch.js' => APP_ROOT . '/public/dist/js/omniSearch.v%%VERSION%%.js',
+    ];
 
-  /**
-   * Install plugin.
-   *
-   * @return void
-   */
+    /**
+     * Install plugin.
+     *
+     * @return void
+     */
     public function install(): void
     {
         foreach (static::$assets as $source => $target) {
@@ -27,11 +27,11 @@ class OmniSearch
         }
     }
 
-  /**
-   * Uninstall plugin.
-   *
-   * @return void
-   */
+    /**
+     * Uninstall plugin.
+     *
+     * @return void
+     */
     public function uninstall(): void
     {
         foreach (static::$assets as $target) {
