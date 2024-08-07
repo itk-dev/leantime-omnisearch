@@ -1,10 +1,9 @@
 # Leantime OmniSearch
 
-A plugin for Leantime that gives access to a plethora of shortcuts, to speed up 
+A plugin for Leantime that gives access to a plethora of shortcuts, to speed up
 navigating the system.
 
-
-### Test release build
+## Test release build
 
 ``` shell
 docker compose build && docker compose run --rm php bash bin/create-release dev-test
@@ -22,24 +21,29 @@ git clone https://github.com/ITK-Leantime/leantime-omnisearch app/Plugins/OmniSe
 
 Install the plugin through Leantime in your web browser.
 
-The install process symlinks the the build file 
+The install process symlinks the the build file
 `
 dist/omniSearch.js
 ` with `public/dist/js/omniSearch.js`in leantime.
 
 Run this to update files
 
-```
+```shell
 docker compose run --rm php npm install
 docker compose run --rm php npm run dev
 ```
 
-### Coding standards
+## Coding standards
 
 Run prettier via the following command:
 
 ```shell
-    docker compose build
-    docker compose run --rm php npm install
-    docker compose run --rm php npm run coding-standards-apply
+docker compose build
+docker compose run --rm php npm install
+docker compose run --rm php npm run coding-standards-apply
+```
+
+```shell
+docker run --rm --volume "$(pwd):/md" peterdavehello/markdownlint markdownlint --ignore LICENSE.md --ignore vendor/ --ignore node_modules/ '**/*.md' --fix
+docker run --rm --volume "$(pwd):/md" peterdavehello/markdownlint markdownlint --ignore LICENSE.md --ignore vendor/ --ignore node_modules/ '**/*.md'
 ```
