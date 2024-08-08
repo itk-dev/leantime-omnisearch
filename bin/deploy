@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+set -o errexit -o errtrace -o noclobber -o nounset -o pipefail
+
+script_dir=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+project_dir=$(cd $(dirname "$script_dir") && pwd)
+
+cd $project_dir
+
 plugin_repo_name=leantime-omnisearch
 plugin_name=OmniSearch
 
