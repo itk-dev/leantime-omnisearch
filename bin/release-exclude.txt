@@ -2,7 +2,8 @@
 .DS_Store
 .editorconfig
 .git*
-bin
+bin/create-release
+bin/release-exclude.txt
 checksum.txt
 compose.yaml
 composer.lock
