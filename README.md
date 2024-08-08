@@ -48,6 +48,10 @@ docker run --rm --volume "$(pwd):/md" peterdavehello/markdownlint markdownlint -
 docker run --rm --volume "$(pwd):/md" peterdavehello/markdownlint markdownlint --ignore LICENSE.md --ignore vendor/ --ignore node_modules/ '**/*.md'
 ```
 
+```shell
+docker run --rm --tty --volume "$(pwd):/app" peterdavehello/shellcheck shellcheck /app/bin/deploy
+```
+
 ```shell name=coding-standards-php
 docker compose build
 docker compose run --rm php composer install
