@@ -3,11 +3,6 @@
 A plugin for Leantime that gives access to a plethora of shortcuts, to speed up
 navigating the system.
 
-## Test release build
-
-``` shell
-docker compose build && docker compose run --rm php bash bin/create-release dev-test
-```
 
 ## Development
 
@@ -26,7 +21,7 @@ The install process symlinks the the build file
 dist/omniSearch.js
 ` with `public/dist/js/omniSearch.js`in leantime.
 
-Run this to update files
+Run this to watch files
 
 ```shell
 docker compose run --rm php npm install
@@ -58,3 +53,15 @@ docker compose run --rm php composer install
 docker compose run --rm php composer coding-standards-apply
 docker compose run --rm php composer coding-standards-check
 ```
+
+## Test release build
+
+``` shell
+docker compose build && docker compose run --rm php bash bin/create-release dev-test
+```
+
+The create-release script replaces `@@VERSION@@` in [register.php](https://github.com/ITK-Leantime/leantime-omnisearch/blob/develop/register.php#L13) and [Services/OmniSearch.php](https://github.com/ITK-Leantime/leantime-omnisearch/blob/develop/Services/OmniSearch.php#L12) with the tag provided (in the above it is `dev-test`).
+
+
+## Deploy
+The deploy script downloads a [release](https://github.com/ITK-Leantime/leantime-omnisearch/releases) from Github and unzips it. The script should be passed a tag as argument. In the process the script deletes itself, but the script finishes because it [is still in memory](https://linux.die.net/man/3/unlink).
