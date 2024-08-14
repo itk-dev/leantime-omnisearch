@@ -14,7 +14,7 @@ git clone https://github.com/ITK-Leantime/leantime-omnisearch app/Plugins/OmniSe
 
 Install the plugin through Leantime in your web browser.
 
-The install process symlinks the the build file ` dist/omniSearch.js ` with `public/dist/js/omniSearch.js`in leantime.
+The install process symlinks the built file `dist/omniSearch.js` with `public/dist/js/omniSearch.js`in leantime.
 
 Run this to watch files
 
