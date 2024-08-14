@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* [PR-25](https://github.com/ITK-Leantime/leantime-omnisearch/pull/25)
+  Document deploy script and `%%VERSION%%` replacement.
+  Update release.yml to do both release and pre-release
+
 * [PR-24](https://github.com/ITK-Leantime/leantime-omnisearch/pull/24)
   Added deploy script
   Removed prerelease flag from release.yml
