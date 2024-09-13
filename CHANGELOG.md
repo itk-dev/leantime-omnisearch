@@ -7,15 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* [PR-27](https://github.com/ITK-Leantime/leantime-omnisearch/pull/27)
+  * Added compatability for Leantime 3.2
+
 * [PR-25](https://github.com/ITK-Leantime/leantime-omnisearch/pull/25)
-  Document deploy script and `%%VERSION%%` replacement.
-  Update release.yml to do both release and pre-release
+  * Document deploy script and `%%VERSION%%` replacement.
+  * Update release.yml to do both release and pre-release
 
 * [PR-24](https://github.com/ITK-Leantime/leantime-omnisearch/pull/24)
-  Added deploy script
-  Removed prerelease flag from release.yml
+  * Added deploy script
+  * Removed prerelease flag from release.yml
+
 * [PR-12](https://github.com/ITK-Leantime/leantime-omnisearch/pull/12)
-  Fixed settins controller file name. Cleaned up.
+  * Fixed settins controller file name. Cleaned up.
+
 * [PR-23](https://github.com/ITK-Leantime/leantime-omnisearch/pull/23)
   * Markdown linter added
 
@@ -89,6 +94,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Install, uninstall script.
 
 [Unreleased]: https://github.com/ITK-Leantime/leantime-omnisearch/compare/1.2.1...HEAD
+[1.2.3]: https://github.com/ITK-Leantime/leantime-omnisearch/compare/1.2.2...1.2.3
+[1.2.2]: https://github.com/ITK-Leantime/leantime-omnisearch/compare/1.2.1...1.2.2
 [1.2.1]: https://github.com/ITK-Leantime/leantime-omnisearch/compare/1.2.0...1.2.1
 [1.2.0]: https://github.com/ITK-Leantime/leantime-omnisearch/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/ITK-Leantime/leantime-omnisearch/compare/1.0.1...1.1.0
