@@ -16,7 +16,7 @@
     "license": "MIT",
     "homepage": "https://github.com/ITK-Leantime/leantime-omnisearch",
     "require": {
-        "leantime/leantime": "^3.0",
+        "leantime/leantime": "^3.2",
     },
      "require-dev": {
         "squizlabs/php_codesniffer": "^3.9",
