@@ -11,7 +11,7 @@ composer.lock
 package-lock.json
 node_modules
 package.json
-src
+assets
 .prettierignore
 .prettierrc
 Dockerfile
