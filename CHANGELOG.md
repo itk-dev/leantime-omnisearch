@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* [PR-28](https://github.com/ITK-Leantime/leantime-omnisearch/pull/29)
+  * Streamline with template repository
+
 * [PR-27](https://github.com/ITK-Leantime/leantime-omnisearch/pull/27)
   * Added compatability for Leantime 3.2
 
