@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -o errexit -o errtrace -o noclobber -o nounset -o pipefail
+
+export plugin_name=OmniSearch
+export plugin_repo_url=https://github.com/ITK-Leantime/leantime-omnisearch/
+
+buildRelease() {
+    npm install --no-dev
+    npm run build
+  return
+}
+
+export -f buildRelease

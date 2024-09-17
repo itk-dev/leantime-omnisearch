@@ -8,6 +8,7 @@
 
 
 <div class="maincontent">
+    {{-- the below results in a phpstan error I don't know how to fix, so this file is excluded from code analysis (in phpstan.dist.neon) --}}
 <?php echo $tpl->displayNotification(); ?>
     <div class="maincontentinner">
         <h5 class="subtitle">Omnisearch Settings</h5>

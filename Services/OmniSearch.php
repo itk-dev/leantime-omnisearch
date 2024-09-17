@@ -5,9 +5,12 @@ namespace Leantime\Plugins\OmniSearch\Services;
 /**
  * OmniSearch plugin.
  */
-class OmniSearch
+final class OmniSearch
 {
-    private static $assets = [
+    /**
+     * @var array<string, string>
+     */
+    private static array $assets = [
         // source => target
         __DIR__ . '/../dist/js/omniSearch.js' => APP_ROOT . '/public/dist/js/omniSearch.v%%VERSION%%.js',
     ];
