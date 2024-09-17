@@ -81,7 +81,6 @@ docker run --rm --volume "$PWD:/app" --workdir /app peterdavehello/shellcheck sh
 docker run --interactive --rm --volume ${PWD}:/app itkdev/php8.3-fpm:latest composer code-analysis
 ```
 
-
 ## Test release build
 
 ``` shell
