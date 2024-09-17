@@ -21,6 +21,6 @@
   "scripts": {
     "dev": "npx webpack --watch",
     "build": "npx webpack",
-    "coding-standards-apply": "prettier src --write"
+    "coding-standards-apply": "prettier assets --write"
   }
 }

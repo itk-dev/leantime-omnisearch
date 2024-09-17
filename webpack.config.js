@@ -16,7 +16,7 @@ module.exports = {
       }),
     ],
   },
-  entry: [ './src/omniSearch.js'],
+  entry: [ './assets/omniSearch.js'],
   output: {
     path: path.resolve(__dirname, './dist/js/'),
     filename: 'omniSearch.js',
