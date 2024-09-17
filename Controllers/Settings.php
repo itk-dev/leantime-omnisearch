@@ -47,8 +47,8 @@ class Settings extends Controller
 
     /**
      * post method
-     * @param array $params
-     * @return Response
+     * @param array<string, mixed> $params
+* @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function post(array $params): RedirectResponse
     {
