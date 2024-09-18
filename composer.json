@@ -1,7 +1,7 @@
 {
     "name": "leantime/omnisearch",
     "description": "Enables a site-wide shortcut tool to access projects and todos in a faster manner. When enabled, press the [period key] and search away!",
-    "version": "1.0",
+    "version": "1.2.7",
     "license": "MIT",
     "type": "leantime-plugin",
     "authors": [
