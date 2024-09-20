@@ -412,7 +412,7 @@ $(document).ready(function ($) {
       ticketPromise = getAllTickets().then((data) => {
         var result = data.result;
         let tickets = result.filter(
-          (result) => result.type.toLowerCase() === 'task'
+          (result) => result.type.toLowerCase() !== "story" && result.type.toLowerCase() !== "milestone"
         );
         const ticketGroup = {
           id: 'task',
