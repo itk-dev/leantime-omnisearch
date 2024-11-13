@@ -53,6 +53,49 @@ $(document).ready(function ($) {
       case key.period:
         if (!$('input, textarea').is(':focus')) {
           initOmniSearch();
+          // Check if its december
+          if (new Date().getMonth() === 11) {
+            // Stolen from: https://pajasevi.github.io/CSSnowflakes/
+            $('body').append(`
+            <div class="snowflakes" aria-hidden="true">
+                <div class="snowflake">
+                    <div class="inner">❅</div>
+                </div>
+                <div class="snowflake">
+                    <div class="inner">❅</div>
+                </div>
+                <div class="snowflake">
+                    <div class="inner">❅</div>
+                </div>
+                <div class="snowflake">
+                    <div class="inner">❅</div>
+                </div>
+                <div class="snowflake">
+                    <div class="inner">❅</div>
+                </div>
+                <div class="snowflake">
+                    <div class="inner">❅</div>
+                </div>
+                <div class="snowflake">
+                    <div class="inner">❅</div>
+                </div>
+                <div class="snowflake">
+                    <div class="inner">❅</div>
+                </div>
+                <div class="snowflake">
+                    <div class="inner">❅</div>
+                </div>
+                <div class="snowflake">
+                    <div class="inner">❅</div>
+                </div>
+                <div class="snowflake">
+                    <div class="inner">❅</div>
+                </div>
+                <div class="snowflake">
+                    <div class="inner">❅</div>
+                </div>
+            </div>`);
+          }
         }
         break;
     }
