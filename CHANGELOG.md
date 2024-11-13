@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* [PR-32](https://github.com/ITK-Leantime/leantime-omnisearch/pull/32)
+  * Add snow
+
 ## [2.0.0] - 2024-09-18
 
 ## [1.2.7] - 2024-09-13
