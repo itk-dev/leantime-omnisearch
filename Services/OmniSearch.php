@@ -2,11 +2,30 @@
 
 namespace Leantime\Plugins\OmniSearch\Services;
 
+
+use Leantime\Plugins\OmniSearch\Repositories\OmniSearch as OmniSearchRepository;
 /**
  * OmniSearch plugin.
  */
 final class OmniSearch
 {
+
+    private OmniSearchRepository $omniSearchRepository;
+
+    /**
+     * @var array<string, string>
+     */
+    /**
+     * constructor
+     *
+     * @param  OmniSearchRepository $omniSearchRepository
+     * @return void
+     */
+    public function __construct(OmniSearchRepository $omniSearchRepository)
+    {
+        $this->omniSearchRepository = $omniSearchRepository;
+    }
+
     /**
      * @var array<string, string>
      */
@@ -42,5 +61,15 @@ final class OmniSearch
                 unlink($target);
             }
         }
+    }
+
+    public function getAllComments(): array
+    {
+        return $this->omniSearchRepository->getAllComments();
+    }
+
+    public function getAllTimelogDescriptions(): array
+    {
+        return $this->omniSearchRepository->getAllTimelogDescriptions();
     }
 }
