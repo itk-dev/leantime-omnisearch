@@ -95,7 +95,6 @@ div[data-tippy-root] {
 
 .settings-button {
     position: absolute;
-    background-color: var(--itk-color-white);
     right: 1px;
     top: 1px;
     padding: 20px;
