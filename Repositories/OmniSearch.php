@@ -26,9 +26,9 @@ class OmniSearch
     }
 
     /**
-     * getAllComments - Retrieves all comments from the database with module ID as key and includes user details.
+     * Retrieves all comments grouped by module ID, concatenated with user names.
      *
-     * @return array<string, array<array<string, mixed>>> An associative array where keys are module IDs and values are arrays of comments.
+     * @return array<int, string> An associative array where keys are module IDs and values are concatenated comments and user names.
      */
     public function getAllComments(): array
     {
@@ -67,6 +67,12 @@ class OmniSearch
         return $comments;
     }
 
+    /**
+     * Retrieves all unique timelog descriptions grouped by ticket ID.
+     * Each description is split into unique words and then reconstructed as a string.
+     *
+     * @return array<int|string, string> An associative array where the keys are ticket IDs and the values are unique concatenated words from their respective timelog descriptions.
+     */
     public function getAllTimelogDescriptions(): array
     {
         $sql = 'SELECT
