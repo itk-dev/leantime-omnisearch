@@ -10,14 +10,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class OmniSearch extends Controller
 {
-
     private readonly Users $userService;
     /**
      * Constructor for the ClassName.
      */
     public function init(Users $userService)
     {
-       $this->userService = $userService;
+        $this->userService = $userService;
     }
 
     /**
@@ -35,7 +34,7 @@ class OmniSearch extends Controller
             foreach ($data as $id => $checkedValue) {
                 $enabled = $checkedValue ? 1 : 0;
 
-                $savedSuccessfully = $this->userService->updateUserSettings("omnisearch", $id, $enabled);
+                $savedSuccessfully = $this->userService->updateUserSettings('omnisearch', $id, $enabled);
 
                 if (!$savedSuccessfully) {
                     return new JsonResponse(['error' => "An error occurred while saving the setting for: $id"], 400);
@@ -53,6 +52,6 @@ class OmniSearch extends Controller
      */
     public function get(): RedirectResponse
     {
-        return Frontcontroller::redirect("/");
+        return Frontcontroller::redirect('/');
     }
 }
