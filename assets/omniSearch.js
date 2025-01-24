@@ -5,15 +5,16 @@ import FuzzySearch from 'fuzzy-search';
 
 $(document).ready(function ($) {
   const cacheTimeouts = {
-      omnisearch_projects: parseFloat(omniSearch.settings.projectCacheExpiration),
-      omnisearch_tickets: parseFloat(omniSearch.settings.ticketCacheExpiration),
+    omnisearch_projects: parseFloat(omniSearch.settings.projectCacheExpiration),
+    omnisearch_tickets: parseFloat(omniSearch.settings.ticketCacheExpiration),
   };
-    console.log(cacheTimeouts);
 
-    window.searchSettings = getSearchSettings(omniSearch.settings.searchSettings);
+  window.searchSettings = getSearchSettings(omniSearch.settings.searchSettings);
 
   const allComments = JSON.parse(omniSearch.settings.allComments);
-    const allTimelogDescriptions = JSON.parse(omniSearch.settings.allTimelogDescription);
+  const allTimelogDescriptions = JSON.parse(
+    omniSearch.settings.allTimelogDescription
+  );
 
   const key = {
     escape: 27,
@@ -23,8 +24,8 @@ $(document).ready(function ($) {
   let isFetching = false; // Is data being fetched
   let isVisible = false; // Is overlay visible
 
-    removeFromCache('tickets');
-    removeFromCache('projects');
+  removeFromCache('tickets');
+  removeFromCache('projects');
   // Fetch new data if cache is stale
   fetchOmnisearchData();
 
@@ -40,67 +41,69 @@ $(document).ready(function ($) {
           <div class="omni-search-panel"></div>
       </div>`);
 
-   const settingsTippy = tippy('.settings-button', {
-        content: `
+  const settingsTippy = tippy('.settings-button', {
+    content: `
 <div class="omnisearch-checkbox">
-  <input type="checkbox" name="usersetting_omnisearch_searchin_beskrivelse" id="checkbox1" class="dynamic-checkbox" ${window.searchSettings.includes("usersetting_omnisearch_searchin_beskrivelse") ? "checked" : ""}>
+  <input type="checkbox" name="usersetting_omnisearch_searchin_beskrivelse" id="checkbox1" class="dynamic-checkbox" ${window.searchSettings.includes('usersetting_omnisearch_searchin_beskrivelse') ? 'checked' : ''}>
   <label for="checkbox1">Søg i beskrivelse</label>
 </div>
 <div class="omnisearch-checkbox">
-  <input type="checkbox" name="usersetting_omnisearch_searchin_kommentarer" id="checkbox2" class="dynamic-checkbox" data-id="2" ${window.searchSettings.includes("usersetting_omnisearch_searchin_kommentarer") ? "checked" : ""}>
+  <input type="checkbox" name="usersetting_omnisearch_searchin_kommentarer" id="checkbox2" class="dynamic-checkbox" data-id="2" ${window.searchSettings.includes('usersetting_omnisearch_searchin_kommentarer') ? 'checked' : ''}>
   <label for="checkbox2">Søg i kommentarer</label>
 </div>
 <div class="omnisearch-checkbox">
-  <input type="checkbox" name="usersetting_omnisearch_searchin_tidsregistreringer" id="checkbox3" class="dynamic-checkbox" data-id="3" ${window.searchSettings.includes("usersetting_omnisearch_searchin_tidsregistreringer") ? "checked" : ""}>
+  <input type="checkbox" name="usersetting_omnisearch_searchin_tidsregistreringer" id="checkbox3" class="dynamic-checkbox" data-id="3" ${window.searchSettings.includes('usersetting_omnisearch_searchin_tidsregistreringer') ? 'checked' : ''}>
   <label for="checkbox3">Søg i tidslogninger</label>
 </div>
 <button class="omnisearch-settings-save">Gem</button>
 `,
 
-        allowHTML: true,
-        trigger: 'click',
-        interactive: true,
-        theme: 'omnisearch',
+    allowHTML: true,
+    trigger: 'click',
+    interactive: true,
+    theme: 'omnisearch',
+  });
+
+  // Listen for checkbox changes using jQuery
+  $(document).on('click', '.omnisearch-settings-save', function (e) {
+    $(e.target).html(
+      '<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>'
+    );
+
+    const checkboxes = $('.dynamic-checkbox');
+    const checkboxData = {};
+
+    // Collect keys and values from all inputs
+    checkboxes.each(function () {
+      const name = $(this).attr('name');
+      const value = $(this).is(':checked') ? '1' : '0';
+      checkboxData[name] = value;
     });
 
-// Listen for checkbox changes using jQuery
-    $(document).on('click', '.omnisearch-settings-save', function (e) {
-
-        $(e.target).html('<i class="fa fa-refresh fa-spin" aria-hidden="true"></i>');
-
-        const checkboxes = $('.dynamic-checkbox');
-        const checkboxData = {};
-
-        // Collect keys and values from all inputs
-        checkboxes.each(function () {
-            const name = $(this).attr('name');
-            const value = $(this).is(':checked') ? "1" : "0";
-            checkboxData[name] = value;
-        });
-
-        // Fire AJAX to post the collected data
-        $.ajax({
-            url: '/OmniSearch/OmniSearch',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(checkboxData),
-            success: function (data) {
-                setOmnisearchData();
-                window.searchSettings = getSearchSettings(data);
-                window.searchSettings.length > 0 ? $(document).find('.settings-button').addClass('active') : $(document).find('.settings-button').removeClass('active');
-                settingsTippy[0].hide();
-                setTimeout(() => {
-                    $(e.target).html("Gem");
-                }, 500)
-            },
-            error: function (error) {
-                console.error('Error:', error);
-            },
-        });
+    // Fire AJAX to post the collected data
+    $.ajax({
+      url: '/OmniSearch/OmniSearch',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(checkboxData),
+      success: function (data) {
+        setOmnisearchData();
+        window.searchSettings = getSearchSettings(data);
+        window.searchSettings.length > 0
+          ? $(document).find('.settings-button').addClass('active')
+          : $(document).find('.settings-button').removeClass('active');
+        settingsTippy[0].hide();
+        setTimeout(() => {
+          $(e.target).html('Gem');
+        }, 500);
+      },
+      error: function (error) {
+        console.error('Error:', error);
+      },
     });
+  });
 
-
-    const omniSelectElement = $('body .omni-search > .search-wrapper > select');
+  const omniSelectElement = $('body .omni-search > .search-wrapper > select');
   const omniSelectPanelElement = $('body .omni-search > .omni-search-panel');
   $('div.omni-search').on('click', function (e) {
     // Close overlay when clicking outside.
@@ -117,25 +120,25 @@ $(document).ready(function ($) {
   });
 
   function getSearchSettings(settings) {
-      const result = [];
+    const result = [];
 
-      $.each(settings, function(key, value) {
-          if (value === "1") {
-              result.push(key);
-          }
-      });
-      window.searchSettings = result;
-      return result;
+    $.each(settings, function (key, value) {
+      if (value === '1') {
+        result.push(key);
+      }
+    });
+    window.searchSettings = result;
+    return result;
   }
 
-    function onSearchSettingsUpdate(updatedValue) {
-      const settingsButton = $(document).find('.settings-button');
-      console.log(settingsButton);
-      console.log(updatedValue.length);
-      updatedValue.length > 0 ? settingsButton.addClass('active') : settingsButton.removeClass('active');
-    }
+  function onSearchSettingsUpdate(updatedValue) {
+    const settingsButton = $(document).find('.settings-button');
+    updatedValue.length > 0
+      ? settingsButton.addClass('active')
+      : settingsButton.removeClass('active');
+  }
 
-    // Event for init and destroy
+  // Event for init and destroy
   $('body').on('keydown', function (e) {
     const keyCode = e.keyCode;
     switch (keyCode) {
@@ -194,25 +197,26 @@ $(document).ready(function ($) {
     }
   });
 
-    function setOmnisearchPreviewText() {
-        // Extract and format the readable parts of the array
-        const readableFields = window.searchSettings.map(field => field.split('_').pop());
+  function setOmnisearchPreviewText() {
+    // Extract and format the readable parts of the array
+    const readableFields = window.searchSettings.map((field) =>
+      field.split('_').pop()
+    );
 
-        let previewText;
+    let previewText;
 
-        if (readableFields.length === 0) {
-            previewText = "Du søger nu i ID, titel, projektnavn og tags.";
-        } else if (readableFields.length === 1) {
-            previewText = `Du søger nu i ID, titel, projektnavn, tags og ${readableFields[0]}.`;
-        } else {
-            const lastField = readableFields.pop();
-            previewText = `Du søger nu i ID, titel, projektnavn, tags, ${readableFields.join(', ')}, og ${lastField}.`;
-        }
-
-
-        // Update the element with the dynamic text
-        $('.select2-results').attr('data-text', previewText);
+    if (readableFields.length === 0) {
+      previewText = 'Du søger nu i ID, titel, projektnavn og tags.';
+    } else if (readableFields.length === 1) {
+      previewText = `Du søger nu i ID, titel, projektnavn, tags og ${readableFields[0]}.`;
+    } else {
+      const lastField = readableFields.pop();
+      previewText = `Du søger nu i ID, titel, projektnavn, tags, ${readableFields.join(', ')}, og ${lastField}.`;
     }
+
+    // Update the element with the dynamic text
+    $('.select2-results').attr('data-text', previewText);
+  }
 
   // Init select2, get data, set events.
   function initOmniSearch() {
@@ -289,8 +293,6 @@ $(document).ready(function ($) {
               }
               break;
           }
-
-
         });
       setOmnisearchData();
       omniSelectElement.on('select2:select', function (e) {
@@ -306,7 +308,7 @@ $(document).ready(function ($) {
           case 'project':
             $(omniSelectElement)
               .next('.select2.select2-container')
-              .attr('data-visible-selected', `Projects / ${text} /`);
+              .attr('data-visible-selected', `Projekter / ${text} /`);
             break;
         }
 
@@ -335,48 +337,48 @@ $(document).ready(function ($) {
   function reinitOmniSearchForType(type, data) {
     switch (type) {
       case 'task':
-        reinitOmniSearchWithData([
-          {
-            id: '',
-            text: 'Actions',
-            children: [
+          reinitOmniSearchWithData([
               {
-                id: data.id,
-                text: 'Open',
-                type: 'taskAction' || 'projectAction',
-                action: 'goto',
+                  id: '',
+                  text: 'Actions',
+                  children: [
+                      {
+                          id: data.id,
+                          text: 'Open',
+                          type: 'taskAction' || 'projectAction',
+                          action: 'goto',
+                      },
+                      {
+                          id: data.id,
+                          text: 'Log Time',
+                          type: 'taskAction' || 'projectAction',
+                          action: 'logtime',
+                      },
+                  ],
               },
-              {
-                id: data.id,
-                text: 'Log Time',
-                type: 'taskAction' || 'projectAction',
-                action: 'logtime',
-              },
-            ],
-          },
-        ]);
+          ]);
         break;
 
       case 'project':
         reinitOmniSearchWithData([
-          {
-            id: '',
-            text: 'Actions',
-            children: [
-              {
-                id: data.id,
-                text: 'Go to',
-                type: 'projectAction',
-                action: 'goto',
-              },
-              {
-                id: data.id,
-                text: 'Create To-Do',
-                type: 'projectAction',
-                action: 'createnew',
-              },
-            ],
-          },
+            {
+                id: '',
+                text: 'Actions',
+                children: [
+                    {
+                        id: data.id,
+                        text: 'Go to',
+                        type: 'projectAction',
+                        action: 'goto',
+                    },
+                    {
+                        id: data.id,
+                        text: 'Create To-Do',
+                        type: 'projectAction',
+                        action: 'createnew',
+                    },
+                ],
+            },
         ]);
         break;
     }
@@ -476,7 +478,7 @@ $(document).ready(function ($) {
       .trigger('change')
       .select2('open');
 
-      setOmnisearchPreviewText();
+    setOmnisearchPreviewText();
 
     // Listens for escape key to close omni-search overlay when select2 is in focus.
     $('body .select2-search__field').on('keydown', (e) => {
@@ -501,11 +503,21 @@ $(document).ready(function ($) {
       }
     });
 
-      setTimeout(() => {
-          const pseudoWidth = window.getComputedStyle($('.select2.select2-container')[0], '::after').getPropertyValue('width');
-          $('.select2-search__field').css('margin-left', (parseFloat(pseudoWidth) + 5)+'px');
+      $('body .select2-search__field').on('keyup', (e) => {
+          console.log($('.select2-results__options > li > ul > li:visible').length);
+          $(document).find('.select2-dropdown > .select2-results').toggleClass('has-results', $('.select2-results__options > li > ul > li:visible').length > 0);
+      });
 
-      }, 10)
+    setTimeout(() => {
+      const pseudoWidth = window
+        .getComputedStyle($('.select2.select2-container')[0], '::after')
+        .getPropertyValue('width');
+      $('.select2-search__field').css(
+        'margin-left',
+        parseFloat(pseudoWidth) + 25 + 'px'
+      );
+        $(document).find('.select2-dropdown > .select2-results').toggleClass('has-results', $('.select2-results__options > li > ul > li:visible').length > 0);
+    }, 1);
   }
 
   // Api
@@ -550,7 +562,7 @@ $(document).ready(function ($) {
         var projects = data.result;
         const projectGroup = {
           id: 'project',
-          text: 'Projects',
+          text: 'Projekter',
           children: [],
           index: 1,
         };
@@ -602,8 +614,9 @@ $(document).ready(function ($) {
             projectId: ticket.projectId,
             projectName: ticket.projectName,
             ...(allComments[ticket.id] && { comments: allComments[ticket.id] }),
-            ...(allTimelogDescriptions[ticket.id] && { timelogDescriptions: allTimelogDescriptions[ticket.id]})
-
+            ...(allTimelogDescriptions[ticket.id] && {
+              timelogDescriptions: allTimelogDescriptions[ticket.id],
+            }),
           };
           childrenForTicketGroup.push(option);
         });
@@ -652,24 +665,24 @@ $(document).ready(function ($) {
   }
 
   function restoreString(htmlString) {
-      return $("<div>").html(htmlString).text();
+    return $('<div>').html(htmlString).text();
   }
 
-    function populateLastUpdated() {
+  function populateLastUpdated() {
     let projectLastUpdated = readFromCache('omnisearch_projects').expiration;
     let ticketsLastUpdated = readFromCache('omnisearch_tickets').expiration;
 
     // Convert ms to minutes
     let projectsLastUpdatedElement =
-      '<span>Projects: ' +
+      '<span>Projekter: ' +
       Math.round((Date.now() - projectLastUpdated) / 60000) +
-      ' min ago.</span>';
+      ' min siden.</span>';
     let ticketsLastUpdatedElement =
-      '<span>Tickets: ' +
+      '<span>To-Do: ' +
       Math.round((Date.now() - ticketsLastUpdated) / 60000) +
-      ' min ago.</span>';
+      ' min siden.</span>';
     omniSelectPanelElement.html(
-      '<div><button id="refreshBtn"><span><i class="fa-solid fa-arrows-rotate"></i>Sync data</span></button></div><div>' +
+      '<div><button id="refreshBtn"><span></i>Opdater data</span></button></div><div>' +
         projectsLastUpdatedElement +
         ticketsLastUpdatedElement +
         '</div>'
@@ -681,7 +694,7 @@ $(document).ready(function ($) {
       }
       $(this)
         .children('span')
-        .html('<i class="fa-solid fa-arrows-rotate fa-spin"></i>Syncing data');
+        .html('<i class="fa-solid fa-arrows-rotate fa-spin"></i>Opdaterer');
       refreshOmniSearch();
     });
   }
@@ -709,27 +722,37 @@ $(document).ready(function ($) {
     };
   }
 
-    function advancedMatcher(params, data) {
-        const term = params.term?.toLowerCase() || '';
-        const searchFields = ['id', 'parentText', 'text', 'tags', 'projectName', 'description', 'comments', 'timelogDescriptions'];
+  function advancedMatcher(params, data) {
+    const term = params.term?.toLowerCase() || '';
+    const searchFields = [
+      'id',
+      'parentText',
+      'text',
+      'tags',
+      'projectName',
+      'description',
+      'comments',
+      'timelogDescriptions',
+    ];
 
-        const searcher = new FuzzySearch(data.children, searchFields, { caseSensitive: false });
-        const result = searcher.search(term).map((item) => {
-            const score = searchFields.reduce((score, field) => {
-                const value = item[field];
-                if (typeof value === 'string' && value.toLowerCase().includes(term)) {
-                    score++;
-                }
-                return score;
-            }, 0);
-            return { ...item, score };
-        });
+    const searcher = new FuzzySearch(data.children, searchFields, {
+      caseSensitive: false,
+    });
+    const result = searcher.search(term).map((item) => {
+      const score = searchFields.reduce((score, field) => {
+        const value = item[field];
+        if (typeof value === 'string' && value.toLowerCase().includes(term)) {
+          score++;
+        }
+        return score;
+      }, 0);
+      return { ...item, score };
+    });
 
-        const sortedResults = result.sort((a, b) => b.score - a.score);
+    const sortedResults = result.sort((a, b) => b.score - a.score);
 
-        return { ...data, children: sortedResults };
-    }
-
+    return { ...data, children: sortedResults };
+  }
 
   function removeFromCache(item) {
     localStorage.removeItem(item);
@@ -751,11 +774,8 @@ $(document).ready(function ($) {
     }
 
     const cacheDataExpiration = cacheData.expiration ?? 0;
-    console.log(cacheDataExpiration)
-      console.log(item);
     // Convert minutes to ms
     const cacheTimeoutMs = cacheTimeouts[item] * 60000;
-    console.log(cacheTimeoutMs);
     const cacheDataExpired = Date.now() - cacheDataExpiration > cacheTimeoutMs;
 
     return cacheDataExpired ? false : cacheData.data;
