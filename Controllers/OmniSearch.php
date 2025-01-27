@@ -10,11 +10,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class OmniSearch extends Controller
 {
-    private readonly Users $userService;
+    private Users $userService;
     /**
      * Constructor for the ClassName.
      */
-    public function init(Users $userService)
+    public function init(Users $userService): void
     {
         $this->userService = $userService;
     }
@@ -22,7 +22,7 @@ class OmniSearch extends Controller
     /**
      * Post method.
      *
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function post(): JsonResponse
     {
@@ -47,7 +47,6 @@ class OmniSearch extends Controller
     /**
      * Get method.
      *
-     * @param mixed $param
      * @return RedirectResponse
      */
     public function get(): RedirectResponse

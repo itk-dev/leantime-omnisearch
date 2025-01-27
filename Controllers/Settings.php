@@ -4,7 +4,6 @@ namespace Leantime\Plugins\OmniSearch\Controllers;
 
 use Leantime\Core\Controller\Controller;
 use Leantime\Core\Controller\Frontcontroller;
-use Leantime\Plugins\OmniSearch\Services\OmniSearch;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Leantime\Domain\Setting\Repositories\Setting as SettingRepository;
@@ -19,7 +18,6 @@ class Settings extends Controller
 {
     private SettingRepository $settingsRepo;
 
-    private OmniSearch $omnisearchService;
 
     /**
      * constructor
@@ -27,10 +25,9 @@ class Settings extends Controller
      *
      * @return void
      */
-    public function init(SettingRepository $settingsRepo, OmniSearch $omnisearchService): void
+    public function init(SettingRepository $settingsRepo): void
     {
         $this->settingsRepo = $settingsRepo;
-        $this->omnisearchService = $omnisearchService;
     }
 
     /**

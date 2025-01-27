@@ -62,7 +62,7 @@ final class OmniSearch
     /**
      * Retrieves all comments from the repository
      *
-     * @return array<string, string> The list of all comments
+     * @return array<int, string> The list of all comments
      */
     public function getAllComments(): array
     {
