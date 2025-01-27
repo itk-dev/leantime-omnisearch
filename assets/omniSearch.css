@@ -98,21 +98,22 @@ div[data-tippy-root] {
   padding: 20px;
   cursor: pointer;
   z-index: 99999;
-    background-color: var(--itk-color-white);
-    border-left: 1px solid var(--itk-border-color);
-transition: background-color var(--itk-transition-time) var(--itk-transition-easing);
+  background-color: var(--itk-color-white);
+  border-left: 1px solid var(--itk-border-color);
+  transition: background-color var(--itk-transition-time)
+    var(--itk-transition-easing);
   &.active {
     i {
       color: var(--itk-color-primary);
     }
   }
-    &:hover {
-        background-color: var(--itk-color-gray-200);
-    }
+  &:hover {
+    background-color: var(--itk-color-gray-200);
+  }
 
-    &[aria-expanded='true'] {
-        background-color: var(--itk-color-gray-200);
-    }
+  &[aria-expanded='true'] {
+    background-color: var(--itk-color-gray-200);
+  }
   i {
     color: var(--itk-color-gray-700);
     font-size: 19px;
@@ -130,8 +131,10 @@ transition: background-color var(--itk-transition-time) var(--itk-transition-eas
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 99998;
 }
-.omni-search .select2-container--default.select2-container--focus .select2-selection--multiple {
-    border: 1px solid var(--itk-border-color);
+.omni-search
+  .select2-container--default.select2-container--focus
+  .select2-selection--multiple {
+  border: 1px solid var(--itk-border-color);
 }
 
 .omni-search.hidden > * {
@@ -212,8 +215,8 @@ transition: background-color var(--itk-transition-time) var(--itk-transition-eas
 .select2-dropdown {
   border-radius: 0;
   border-right: 1px solid var(--itk-border-color);
-    border-bottom: 1px solid var(--itk-border-color);
-    border-left: 1px solid var(--itk-border-color);
+  border-bottom: 1px solid var(--itk-border-color);
+  border-left: 1px solid var(--itk-border-color);
   max-height: 70vh;
 }
 
@@ -258,8 +261,8 @@ transition: background-color var(--itk-transition-time) var(--itk-transition-eas
 }
 
 .select2-rendered__match {
-    color: #0284c7;
-    background-color: #0284c720;
+  color: #0284c7;
+  background-color: #0284c720;
 }
 
 .select2-results__group .select2-rendered__match {
@@ -301,15 +304,15 @@ transition: background-color var(--itk-transition-time) var(--itk-transition-eas
 }
 
 .js-example-basic-multiple + span.select2:before {
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
-    content: '\f002';
-    position: absolute;
-    left: 16px;
-    top: 19px;
-    font-size: 16px;
-    margin: auto;
-    z-index: 9;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  content: '\f002';
+  position: absolute;
+  left: 16px;
+  top: 19px;
+  font-size: 16px;
+  margin: auto;
+  z-index: 9;
 }
 .js-example-basic-multiple.loading + span.select2:before {
   font-family: 'Font Awesome 5 Free';
@@ -345,15 +348,14 @@ transition: background-color var(--itk-transition-time) var(--itk-transition-eas
 }
 
 .omni-search-panel > div:first-child > button {
-    width: 100%;
-    border: none;
-    border-bottom: 1px solid #999;
-    background-color: var(--itk-color-primary-800);
-    color: #fff !important;
-    font-size: 13px;
-    padding: 6px 12px;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #999;
+  background-color: var(--itk-color-primary-800);
+  color: #fff !important;
+  font-size: 13px;
+  padding: 6px 12px;
 }
-
 
 .omni-search-panel > div:first-child > button > span > i {
   margin-right: 5px;

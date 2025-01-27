@@ -337,48 +337,48 @@ $(document).ready(function ($) {
   function reinitOmniSearchForType(type, data) {
     switch (type) {
       case 'task':
-          reinitOmniSearchWithData([
+        reinitOmniSearchWithData([
+          {
+            id: '',
+            text: 'Actions',
+            children: [
               {
-                  id: '',
-                  text: 'Actions',
-                  children: [
-                      {
-                          id: data.id,
-                          text: 'Open',
-                          type: 'taskAction' || 'projectAction',
-                          action: 'goto',
-                      },
-                      {
-                          id: data.id,
-                          text: 'Log Time',
-                          type: 'taskAction' || 'projectAction',
-                          action: 'logtime',
-                      },
-                  ],
+                id: data.id,
+                text: 'Open',
+                type: 'taskAction' || 'projectAction',
+                action: 'goto',
               },
-          ]);
+              {
+                id: data.id,
+                text: 'Log Time',
+                type: 'taskAction' || 'projectAction',
+                action: 'logtime',
+              },
+            ],
+          },
+        ]);
         break;
 
       case 'project':
         reinitOmniSearchWithData([
-            {
-                id: '',
-                text: 'Actions',
-                children: [
-                    {
-                        id: data.id,
-                        text: 'Go to',
-                        type: 'projectAction',
-                        action: 'goto',
-                    },
-                    {
-                        id: data.id,
-                        text: 'Create To-Do',
-                        type: 'projectAction',
-                        action: 'createnew',
-                    },
-                ],
-            },
+          {
+            id: '',
+            text: 'Actions',
+            children: [
+              {
+                id: data.id,
+                text: 'Go to',
+                type: 'projectAction',
+                action: 'goto',
+              },
+              {
+                id: data.id,
+                text: 'Create To-Do',
+                type: 'projectAction',
+                action: 'createnew',
+              },
+            ],
+          },
         ]);
         break;
     }
@@ -503,10 +503,15 @@ $(document).ready(function ($) {
       }
     });
 
-      $('body .select2-search__field').on('keyup', (e) => {
-          console.log($('.select2-results__options > li > ul > li:visible').length);
-          $(document).find('.select2-dropdown > .select2-results').toggleClass('has-results', $('.select2-results__options > li > ul > li:visible').length > 0);
-      });
+    $('body .select2-search__field').on('keyup', (e) => {
+      console.log($('.select2-results__options > li > ul > li:visible').length);
+      $(document)
+        .find('.select2-dropdown > .select2-results')
+        .toggleClass(
+          'has-results',
+          $('.select2-results__options > li > ul > li:visible').length > 0
+        );
+    });
 
     setTimeout(() => {
       const pseudoWidth = window
@@ -516,7 +521,12 @@ $(document).ready(function ($) {
         'margin-left',
         parseFloat(pseudoWidth) + 25 + 'px'
       );
-        $(document).find('.select2-dropdown > .select2-results').toggleClass('has-results', $('.select2-results__options > li > ul > li:visible').length > 0);
+      $(document)
+        .find('.select2-dropdown > .select2-results')
+        .toggleClass(
+          'has-results',
+          $('.select2-results__options > li > ul > li:visible').length > 0
+        );
     }, 1);
   }
 
