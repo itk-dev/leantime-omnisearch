@@ -8,11 +8,15 @@ use Leantime\Domain\Users\Services\Users;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+/**
+ * OmniSearch controller class - Handle post requests.
+ */
 class OmniSearch extends Controller
 {
     private Users $userService;
     /**
      * Constructor for the ClassName.
+     * @return void
      */
     public function init(Users $userService): void
     {
@@ -37,7 +41,7 @@ class OmniSearch extends Controller
                 $savedSuccessfully = $this->userService->updateUserSettings('omnisearch', $id, $enabled);
 
                 if (!$savedSuccessfully) {
-                    return new JsonResponse(['error' => "An error occurred while saving the setting for: $id"], 400);
+                    return new JsonResponse(['error' => 'An error occurred while saving the setting for: ' . $id], 400);
                 }
             }
         }
