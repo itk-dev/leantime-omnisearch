@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* [PR-33](https://github.com/ITK-Leantime/leantime-omnisearch/pull/33)
+  * Added user settings to determine search scope
 * [PR-32](https://github.com/ITK-Leantime/leantime-omnisearch/pull/32)
   * Add snow
 
